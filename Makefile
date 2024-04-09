@@ -6,11 +6,11 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/08 15:58:00 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/09 16:59:39 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME =		FDF
+NAME =		FdF
 
 SRCS :=		src/main.c
 
@@ -22,7 +22,8 @@ LIBFT =		obj/libft/libft.a
 
 CC =		cc
 CFLAGS =	-Wall -Wextra -Werror -Iinclude
-LIBS = 		-Lobj/libft -lft
+LIBS_EXTRA = -lm -lmlx -lXext -lX11 # -lm: math library; rest: MiniLibX
+LIBS = 		-Lobj/libft -lft $(LIBS_EXTRA)
 
 TOTAL_SRCS := $(words $(SRCS))
 SRC_NUM := 0
@@ -108,14 +109,15 @@ obj/%.o: src/%.c $(HDRS)
 	@echo ""
 	@$(eval SRC_NUM := $(shell expr $(SRC_NUM) + 1))
 	@$(eval PERCENT := $(shell printf "%.0f" $(shell echo "scale=4; $(SRC_NUM) / $(TOTAL_SRCS) * 100" | bc)))
-	@printf "$(BOLD)\rCompiling $(NAME): ["
+	@printf "$(BOLD)\rCompiling libft: ["
 	@$(eval PROGRESS := $(shell expr $(PERCENT) / 5))
 	@printf "$(GREEN)%0.s#$(RESET)$(BOLD)" $(shell seq 1 $(PROGRESS))
 	@if [ $(PERCENT) -lt 100 ]; then printf "%0.s-" $(shell seq 1 $(shell expr 20 - $(PROGRESS))); fi
 	@printf "] "
 	@if [ $(PERCENT) -eq 100 ]; then printf "$(GREEN)"; fi
+	@printf "%d/%d - " $(SRC_NUM) $(TOTAL_SRCS)
 	@printf "%d%% $(RESET)" $(PERCENT)
-	@$(CC) $(CFLAGS) -c -o $@ $<
+	@$(CC) $(CFLAGS) -D BUFFER_SIZE=$(BUFFER_SIZE) -D FD_SIZE=$(FD_SIZE) -c $< -o $@
 
 # Target to remove all generated files.
 clean:
