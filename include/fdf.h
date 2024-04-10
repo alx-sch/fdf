@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/10 14:18:06 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/10 14:21:00 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # include <string.h> // strerror
 # include <mlx.h> // MiniLibX
 # include "../src/libft/libft.h" // libft
+
+# define WINDOW_W 600
+# define WINDOW_H 300
 
 // Data structure holding image info, incl. dimensions, pixel data, color, and
 // endianess.
