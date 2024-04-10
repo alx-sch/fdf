@@ -6,13 +6,16 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/10 14:22:41 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/10 18:38:28 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =		FdF
 
-SRCS :=		src/main.c
+SRCS :=		src/main.c \
+			src/hooks.c \
+			src/render.c \
+			src/utils.c
 
 OBJS :=		$(SRCS:src/%.c=obj/%.o)
 HDRS := 	include/fdf.h
@@ -106,7 +109,6 @@ $(LIBFT):	$(LIBFT_DIR)/ft_isalpha.c \
 # -$<:		Represents the first prerequisite (the c. file).
 obj/%.o: src/%.c $(HDRS)
 	@mkdir -p $(@D)
-	@echo ""
 	@$(eval SRC_NUM := $(shell expr $(SRC_NUM) + 1))
 	@$(eval PERCENT := $(shell printf "%.0f" $(shell echo "scale=4; $(SRC_NUM) / $(TOTAL_SRCS) * 100" | bc)))
 	@printf "$(BOLD)\rCompiling $(NAME): ["

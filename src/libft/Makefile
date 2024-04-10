@@ -6,7 +6,7 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 11:41:06 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/10 14:24:25 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/10 16:23:49 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,6 +104,7 @@ all:	$(NAME)
 # and the 'ar rc' command creates the library.
 $(NAME):	$(OBJS)
 	@ar rcs $(NAME) $(OBJS)
+	@echo ""
 
 # Target 'clean' removes object files.
 clean:

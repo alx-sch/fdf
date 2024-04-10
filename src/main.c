@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/10 14:21:19 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/10 18:44:56 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,79 +17,41 @@
 // FILE
 int		main(void);
 
-// libft
-int		ft_printf(const char *format, ...);
+// hooks.c
+int		handle_keypress(int keycode, t_data *data);
 
-//	+++++++++++++++
-//	++ FUNCTIONS ++
-//	+++++++++++++++
+// render.c
+int		render(t_data *data);
 
+// utils.c
+void	msg_and_exit(char *msg, int exit_code);
 
 //	+++++++++++++
 //	++ PROGRAM ++
 //	+++++++++++++
 
-void	my_mlx_square_put(void *mlx_ptr, void *win_ptr, int x, int y, int size, int color)
-{
-	// Iterate over the square area and fill each pixel with the specified color
-	for (int i = y; i < y + size; i++)
-	{
-		for (int j = x; j < x + size; j++)
-		{
-			mlx_pixel_put(mlx_ptr, win_ptr, j, i, color);
-			//my_mlx_pixel_put(data, j, i, color);
-		}
-	}
-}
-
-int	create_color(int transparency, int red, int green, int blue)
-{
-	return (transparency << 24 | red << 16 | green << 8 | blue);
-}
-
-//
-//
-//
-
 int	main(void)
 {
-	void	*mlx;
-	void	*mlx_win;
+	t_data	data;
 
-	mlx = mlx_init();
-	mlx_win = mlx_new_window(mlx, WINDOW_W, WINDOW_H, "TEST!");
+	data.mlx_ptr = mlx_init();
+	if (!data.mlx_ptr)
+		msg_and_exit("MLX ERROR\n", MLX_ERROR);
+	data.win_ptr = mlx_new_window(data.mlx_ptr, WINDOW_W, WINDOW_H, "TEST!");
+	if (!data.win_ptr)
+		msg_and_exit("MLX ERROR\n", MLX_ERROR);
 
-	my_mlx_square_put(mlx, mlx_win, 100, 100, 50, create_color(255, 255, 255, 255));
+	data.img.img = mlx_new_image(data.mlx_ptr, WINDOW_W, WINDOW_H);
+	data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bpp,
+			&data.img.line_len, &data.img.endian);
+	mlx_loop_hook(data.mlx_ptr, &render, &data);
+	mlx_hook(data.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &data);
 
-	mlx_loop(mlx);
+	mlx_loop(data.mlx_ptr);
+
+	mlx_destroy_image(data.mlx_ptr, data.img.img);
+	mlx_destroy_display(data.mlx_ptr);
+	free(data.mlx_ptr);
 
 	return (0);
 }
-
-/* using img
-int	main(void)
-{
-	void	*mlx;
-	void	*mlx_win;
-	t_data	img;
-
-	mlx = mlx_init();
-	if (!mlx)
-		return (1);
-
-	mlx_win = mlx_new_window(mlx, 960, 540, "Hello world!");
-	if (!mlx_win)
-		return (1);
-
-	img.img = mlx_new_image(mlx, 960, 540);
-	if (!img.img)
-		return (1);
-
-	img.addr = mlx_get_data_addr(img.img, &img.bits_per_pixel, &img.size_line,
-			&img.endian);
-
-	my_mlx_square_put_2(mlx, mlx_win, 100, 100, 50, create_trgb(0, 100, 0, 100));
-	mlx_put_image_to_window(mlx, mlx_win, img.img, 0, 0);
-	mlx_loop(mlx);
-}
-*/
