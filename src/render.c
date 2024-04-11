@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:37:19 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/10 18:39:59 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/11 19:12:26 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	img_pix_put(t_img *img, int x, int y, int color)
 {
 	char	*pixel;
 
-	pixel = img->addr + (y * img->line_len + x * (img->bpp / 8));
+	pixel = img->addr + (y * img->bytes_len + x * (img->bpp / 8));
 	*(int *)pixel = color;
 }
 
@@ -55,15 +55,15 @@ void	render_background(t_img *img, int color)
 	}
 }
 
-int	render(t_data *data)
+int	render(t_fdf *fdf)
 {
-	if (!data->win_ptr)
+	if (!fdf->win_ptr)
 		return (1);
-	render_background(&data->img, WHITE);
-	render_rect(&data->img, (t_rect){WINDOW_W - 100, WINDOW_H - 100, 100, 100, GREEN});
-	render_rect(&data->img, (t_rect){0, 0, 100, 100, RED});
+	render_background(&fdf->img, WHITE);
+	render_rect(&fdf->img, (t_rect){WINDOW_W - 100, WINDOW_H - 100, 100, 100, GREEN});
+	render_rect(&fdf->img, (t_rect){0, 0, 100, 100, RED});
 
-	mlx_put_image_to_window(data->mlx_ptr, data->win_ptr, data->img.img, 0, 0);
+	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img.img, 0, 0);
 
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/10 18:20:07 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/11 19:27:05 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,17 @@
 # include "../src/libft/libft.h" // libft
 # include <X11/keysym.h> // Macros for key symbols, e.g. XK_Escape
 # include <X11/X.h> //Macros releated to the event names/masks, e.g. KeyPress
+# include <pthread.h> // thread-related functions
 
-# define MLX_ERROR 1
+# define ERR_ARG	"ERROR: Pass one map file (.fdf) as argument!\n"
+# define ERR_FILE	"ERROR: Wrong file format, use .fdf!\n"
+# define ERR_MLX	"ERROR: MLX\n"
+
+# define EXIT_SUCCESS	0
+# define EXIT_FAILURE	1
+# define EXIT_ARG		2
+# define EXIT_FILE		3
+
 
 # define WINDOW_W 600
 # define WINDOW_H 300
@@ -51,16 +60,18 @@ typedef struct s_img
 	void	*img;
 	char	*addr;
 	int		bpp;
-	int		line_len;
+	int		bytes_len;
 	int		endian;
 }	t_img;
 
-typedef struct s_data
+typedef struct s_fdf
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
 	t_img	img;
-}	t_data;
+	int		map_x;
+	int		map_y;
+}	t_fdf;
 
 typedef struct s_rect
 {
@@ -77,7 +88,7 @@ typedef struct s_rect
 //	+++++++++++++
 
 // main.c
-int		main(void);
+int		main(int argc, char **argv);
 
 // utils.c
 void	msg_and_exit(char *msg, int exit_code);

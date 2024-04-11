@@ -6,13 +6,14 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/10 18:38:28 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/11 18:54:59 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =		FdF
 
 SRCS :=		src/main.c \
+			src/map.c \
 			src/hooks.c \
 			src/render.c \
 			src/utils.c
