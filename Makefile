@@ -6,13 +6,14 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/12 17:14:23 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/12 23:08:02 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME =			fdf
 
 SRCS :=			src/main.c \
+				src/init_fdf.c \
 				src/map.c \
 				src/hooks.c \
 				src/render.c \
@@ -47,10 +48,11 @@ RED =			\033[31;2m
 GREEN =			\033[32m
 YELLOW =		\033[33m
 
-# Building dependencies MiniLibX, libft, and the program when 'make' is called
+# Building dependencies MiniLibX, libft, and the program when 'make' is called.
 all:	$(LIBMLX) $(LIBFT) $(NAME)
 
 # Compiling MiniLibX. Clones from official repo if not present.
+# Output of cloning / compiliation supressed via redirecting '>/dev/null 2>&1'.
 $(LIBMLX):
 	@if [ ! -d "$(MLX_DIR)" ]; then \
 		echo "Cloning MiniLibX repository..."; \
@@ -60,7 +62,7 @@ $(LIBMLX):
 	@make -s -C $(MLX_DIR) >/dev/null 2>&1;
 	@echo "$(BOLD)MiniLibX compiled.$(RESET)"
 
-# Build the libft library by calling 'make' in LIBFT_DIR (-C changes directory).
+# Build libft library by calling 'make' in LIBFT_DIR.
 # This target will be executed if libft.a is missing or
 # if any of the listed .c or .h files in LIBFT_DIR are modified.
 $(LIBFT):	$(LIBFT_DIR)/libft.h \
@@ -115,14 +117,14 @@ $(LIBFT):	$(LIBFT_DIR)/libft.h \
 	@make -s -C $(LIBFT_DIR)
 	@echo ""
 
-# Compilation of program depends on object files $(OBJS) and library files.
+# Compilation of program depends on $(OBJS) and library files.
 $(NAME):	$(OBJS) $(LIBFT) $(LIBMLX)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIB_FLAGS) -o $(NAME)
 	@echo "$(BOLD)$(YELLOW)\n$(NAME) successfully compiled.$(RESET)"
 
 # Rule to define how to generate object files (%.o) from corresponding
 # source files (%.c). Each .o file depends on the associated .c file and the
-# project header file (include/project.h)
+# project header file.
 # -c:		Generates o. files without linking.
 # -o $@:	Output file name;  '$@' is replaced with target name (the o. file).
 # -$<:		Represents the first prerequisite (the c. file).
@@ -140,7 +142,7 @@ obj/%.o: src/%.c $(HDRS)
 	@printf "%d%% $(RESET)" $(PERCENT)
 	@$(CC) $(CFLAGS) -D BUFFER_SIZE=$(BUFFER_SIZE) -D FD_SIZE=$(FD_SIZE) -c $< -o $@
 
-# Target to remove all generated files.
+# Target to remove all generated files BUT the program executable.
 clean:
 	@rm -rf obj
 	@rm -rf $(MLX_DIR)

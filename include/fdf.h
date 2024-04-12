@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/12 17:43:18 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/12 22:52:40 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,20 @@
 # include <X11/X.h> //Macros releated to the event names/masks, e.g. KeyPress
 # include <pthread.h> // thread-related functions
 
-# define ERR_ARG	"ERROR: Provide a single .fdf file!\n"
-# define ERR_FILE	"ERROR: Provide a single .fdf file!\n"
-# define ERR_MLX	"ERROR: MLX\n"
+# define ERR_ARG		"ERROR: Use './fdf map_file.fdf'!\n"
+# define ERR_FILE_TYPE	"ERROR: Provide map as .fdf file!\n"
+# define ERR_FILE_EMPTY	"ERROR: Map is empty!\n"
+# define ERR_FILE_STRUC	"ERROR: Map is not rectangular!\n"
+# define ERR_MLX		"ERROR: MLX\n"
 
-# define EXIT_SUCCESS	0
-# define EXIT_FAILURE	1
-# define EXIT_ARG		2
-# define EXIT_FILE		3
+# define EXIT_SUCCESS		0
+# define EXIT_FAILURE		1
+# define EXIT_ARG			2
+# define EXIT_FILE_TYPE		3
+# define EXIT_FILE_EMPTY	4
+# define EXIT_FILE_STRUC	5
+# define EXIR_MAP_STRUCT	6
+# define EXIT_FILE			7
 
 
 # define WINDOW_W 600
@@ -71,6 +77,7 @@ typedef struct s_fdf
 	t_img	img;
 	int		map_x;
 	int		map_y;
+	int		**map;
 }	t_fdf;
 
 typedef struct s_rect

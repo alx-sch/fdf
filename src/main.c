@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/12 17:43:45 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/12 23:16:22 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,14 @@
 
 // FILE
 
-int		main(int argc, char **argv);
+//int		main(int argc, char **argv);
+
+// init_fdf.c
+
+void	init_fdf(t_fdf *fdf, char *file);
 
 // map.c
 
-int		is_fdf(char *s);
 int		get_map_x(char *file);
 int		get_map_y(char *file);
 int		is_map_rect(char *file, int map_x);
@@ -37,8 +40,17 @@ int		render(t_fdf *fdf);
 // utils.c
 
 void	msg_and_exit(char *msg, int exit_code);
+void	perror_and_exit(char *msg, int exit_code);
 
 // libft
+
+void	*ft_calloc(size_t nmemb, size_t size);
+
+//	+++++++++++++++
+//	++ FUNCTIONS ++
+//	+++++++++++++++
+
+
 
 //	+++++++++++++
 //	++ PROGRAM ++
@@ -70,20 +82,20 @@ void	msg_and_exit(char *msg, int exit_code);
 // 	return (0);
 // }
 
+
 int	main(int argc, char **argv)
 {
-	int	x;
-	int	y;
-
-	argv[0] = NULL;
+	t_fdf	fdf;
 
 	if (argc != 2)
 		msg_and_exit(ERR_ARG, EXIT_ARG);
-	if (!is_fdf(argv[1]))
-		msg_and_exit(ERR_FILE, EXIT_FILE);
-	x = get_map_x(argv[1]);
-	y = get_map_y(argv[1]);
-	ft_printf("map_x: %d\n", x);
-	ft_printf("map_y: %d\n", y);
-	ft_printf("map_rect: %d\n", is_map_rect(argv[1], x));
+
+	init_fdf(&fdf, argv[1]);
+
+	ft_printf("map_x: %d\n", fdf.map_x);
+	ft_printf("map_y: %d\n", fdf.map_y);
+	ft_printf("map_rect: %d\n", is_map_rect(argv[1], fdf.map_x));
+
+	free(fdf.map);
+
 }
