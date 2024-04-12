@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/12 16:31:33 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/12 17:43:45 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,27 @@
 #include "fdf.h"
 
 // FILE
+
 int		main(int argc, char **argv);
 
 // map.c
+
 int		is_fdf(char *s);
 int		get_map_x(char *file);
 int		get_map_y(char *file);
 int		is_map_rect(char *file, int map_x);
 
 // hooks.c
+
 int		handle_keypress(int keycode, t_fdf *fdf);
 int		handle_event(t_fdf *fdf);
 
 // render.c
+
 int		render(t_fdf *fdf);
 
 // utils.c
+
 void	msg_and_exit(char *msg, int exit_code);
 
 // libft

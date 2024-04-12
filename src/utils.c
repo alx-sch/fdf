@@ -6,13 +6,14 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:53:16 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/12 14:19:27 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/12 17:44:41 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 // libft
+
 char	**ft_split(const char *s, char c);
 
 

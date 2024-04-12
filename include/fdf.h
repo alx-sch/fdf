@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/12 16:11:46 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/12 17:43:18 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,15 @@ typedef struct s_rect
 //	+++++++++++++
 
 // main.c
+
 int		main(int argc, char **argv);
 
 // utils.c
+
 void	msg_and_exit(char *msg, int exit_code);
 
 // libft
+
 int		ft_printf(const char *format, ...);
 
 /*

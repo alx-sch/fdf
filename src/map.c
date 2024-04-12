@@ -6,17 +6,19 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:23:31 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/12 14:38:26 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/12 17:44:28 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
 // utils.c
+
 void	perror_and_exit(char *msg, int exit_code);
 int		count_words(char *line);
 
 // libft
+
 size_t	ft_strlen(const char *s);
 
 int	is_fdf(char *s)
