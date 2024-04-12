@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:23:31 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/11 21:19:21 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/12 14:38:26 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		count_words(char *line);
 // libft
 size_t	ft_strlen(const char *s);
 
-int	check_filename(char *s)
+int	is_fdf(char *s)
 {
 	size_t	len;
 
@@ -56,6 +56,7 @@ int	get_map_x(char *file)
 	return (map_x);
 }
 
+// returns lines in file.
 int	get_map_y(char *file)
 {
 	int		fd;
@@ -79,6 +80,7 @@ int	get_map_y(char *file)
 	}
 }
 
+// Checks if al lines got the same number of entries
 int	is_map_rect(char *file, int map_x)
 {
 	int		fd;
@@ -106,6 +108,7 @@ int	is_map_rect(char *file, int map_x)
 	}
 	return (1);
 }
+
 // void	read_file(char *file, t_fdf *fdf)
 // {
 // 	fdf->map_x = get_width(file);

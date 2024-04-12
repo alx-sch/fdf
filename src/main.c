@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/11 21:19:10 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/12 16:31:33 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 int		main(int argc, char **argv);
 
 // map.c
-int		check_filename(char *s);
+int		is_fdf(char *s);
 int		get_map_x(char *file);
 int		get_map_y(char *file);
 int		is_map_rect(char *file, int map_x);
@@ -34,7 +34,6 @@ int		render(t_fdf *fdf);
 void	msg_and_exit(char *msg, int exit_code);
 
 // libft
-
 
 //	+++++++++++++
 //	++ PROGRAM ++
@@ -68,15 +67,18 @@ void	msg_and_exit(char *msg, int exit_code);
 
 int	main(int argc, char **argv)
 {
-	int	x = get_map_x(argv[1]);
-	int	y = get_map_y(argv[1]);
+	int	x;
+	int	y;
+
+	argv[0] = NULL;
 
 	if (argc != 2)
 		msg_and_exit(ERR_ARG, EXIT_ARG);
-	if (!check_filename(argv[1]))
+	if (!is_fdf(argv[1]))
 		msg_and_exit(ERR_FILE, EXIT_FILE);
+	x = get_map_x(argv[1]);
+	y = get_map_y(argv[1]);
 	ft_printf("map_x: %d\n", x);
 	ft_printf("map_y: %d\n", y);
 	ft_printf("map_rect: %d\n", is_map_rect(argv[1], x));
-
 }

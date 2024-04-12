@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/11 19:27:05 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/12 16:11:46 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@
 # include <stdio.h> // perror
 # include <string.h> // strerror
 # include <mlx.h> // MiniLibX
-# include "../src/libft/libft.h" // libft
+# include "../lib/libft/libft.h" // libft
 # include <X11/keysym.h> // Macros for key symbols, e.g. XK_Escape
 # include <X11/X.h> //Macros releated to the event names/masks, e.g. KeyPress
 # include <pthread.h> // thread-related functions
 
-# define ERR_ARG	"ERROR: Pass one map file (.fdf) as argument!\n"
-# define ERR_FILE	"ERROR: Wrong file format, use .fdf!\n"
+# define ERR_ARG	"ERROR: Provide a single .fdf file!\n"
+# define ERR_FILE	"ERROR: Provide a single .fdf file!\n"
 # define ERR_MLX	"ERROR: MLX\n"
 
 # define EXIT_SUCCESS	0

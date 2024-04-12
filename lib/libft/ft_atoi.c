@@ -6,12 +6,12 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/21 14:33:52 by aschenk           #+#    #+#             */
-/*   Updated: 2024/03/21 15:05:31 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/12 17:19:09 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-The atoi() function transforms a string into its corresponding integer
+The atoi() function transforms a string into its corresponding intger
 representation.
 The string provided as a parameter may start with any number of leading
 whitespaces, as determined by isspace(3). Following these whitespaces, there

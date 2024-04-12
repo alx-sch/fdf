@@ -6,51 +6,65 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/11 18:54:59 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/12 17:14:23 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME =		FdF
+NAME =			fdf
 
-SRCS :=		src/main.c \
-			src/map.c \
-			src/hooks.c \
-			src/render.c \
-			src/utils.c
+SRCS :=			src/main.c \
+				src/map.c \
+				src/hooks.c \
+				src/render.c \
+				src/utils.c
 
-OBJS :=		$(SRCS:src/%.c=obj/%.o)
-HDRS := 	include/fdf.h
+OBJS :=			$(SRCS:src/%.c=obj/%.o)
+HDRS := 		include/fdf.h
 
-LIBFT_DIR =	src/libft
-LIBFT =		obj/libft/libft.a
+# LIBFT
+LIBFT_DIR =		lib/libft
+LIBFT_FLAGS =	-L$(LIBFT_DIR) -lft
+LIBFT =			$(LIBFT_DIR)/libft.a
 
-CC =		cc
-CFLAGS =	-Wall -Wextra -Werror -Iinclude
-LIBS_EXTRA = -lm -lmlx -lXext -lX11 # -lm: math library; rest: MiniLibX
-LIBS = 		-Lobj/libft -lft $(LIBS_EXTRA)
+# MiniLibX
+MLX_DIR =		lib/mlx
+MLX_FLAGS =		-L$(MLX_DIR) -lmlx -lXext -lX11
+LIBMLX =		$(MLX_DIR)/libmlx.a
 
-TOTAL_SRCS := $(words $(SRCS))
-SRC_NUM := 0
+LIB_FLAGS =		$(LIBFT_FLAGS) $(MLX_FLAGS) -lm # -lm: math library
 
-# Define ANSI escape codes for colors and styles
-RESET = \033[0m
-BOLD = \033[1m
-RED = \033[31;2m
-GREEN = \033[32m
-YELLOW = \033[33m
+CC =			cc
+CFLAGS =		-Wall -Wextra -Werror -Iinclude
 
-# Target 'all' is the default target, building program specified by $(NAME).
-all:	$(LIBFT) $(NAME)
+# For compilation progress bar
+TOTAL_SRCS :=	$(words $(SRCS))
+SRC_NUM :=		0
 
-# Target $(NAME) depends on object files $(OBJS) and libft library.
-$(NAME):	$(OBJS) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OBJS) $(LIBS) -o $(NAME)
-	@echo "$(BOLD)$(YELLOW)\n$(NAME) successfully compiled.$(RESET)"
+# Colors and styles
+RESET =			\033[0m
+BOLD =			\033[1m
+RED =			\033[31;2m
+GREEN =			\033[32m
+YELLOW =		\033[33m
 
-# Build the libft library by calling make in the src/libft directory
-# (-C changes directory). This target will be executed if libft.a is missing or
-# if any of the .c files in the src/libft directory are modified.
-$(LIBFT):	$(LIBFT_DIR)/ft_isalpha.c \
+# Building dependencies MiniLibX, libft, and the program when 'make' is called
+all:	$(LIBMLX) $(LIBFT) $(NAME)
+
+# Compiling MiniLibX. Clones from official repo if not present.
+$(LIBMLX):
+	@if [ ! -d "$(MLX_DIR)" ]; then \
+		echo "Cloning MiniLibX repository..."; \
+		git clone https://github.com/42Paris/minilibx-linux.git $(MLX_DIR) >/dev/null 2>&1; \
+	fi
+	@echo "Compiling MiniLibX..."
+	@make -s -C $(MLX_DIR) >/dev/null 2>&1;
+	@echo "$(BOLD)MiniLibX compiled.$(RESET)"
+
+# Build the libft library by calling 'make' in LIBFT_DIR (-C changes directory).
+# This target will be executed if libft.a is missing or
+# if any of the listed .c or .h files in LIBFT_DIR are modified.
+$(LIBFT):	$(LIBFT_DIR)/libft.h \
+			$(LIBFT_DIR)/ft_isalpha.c \
 			$(LIBFT_DIR)/ft_isdigit.c \
 			$(LIBFT_DIR)/ft_isalnum.c \
 			$(LIBFT_DIR)/ft_isascii.c \
@@ -97,10 +111,14 @@ $(LIBFT):	$(LIBFT_DIR)/ft_isalpha.c \
 			$(LIBFT_DIR)/ft_isbinary.c \
 			$(LIBFT_DIR)/get_next_line_bonus.c \
 			$(LIBFT_DIR)/ft_printf_utils.c \
-			$(LIBFT_DIR)/ft_printf.c \
-			$(LIBFT_DIR)/libft.h
-	@mkdir -p obj/libft
+			$(LIBFT_DIR)/ft_printf.c
 	@make -s -C $(LIBFT_DIR)
+	@echo ""
+
+# Compilation of program depends on object files $(OBJS) and library files.
+$(NAME):	$(OBJS) $(LIBFT) $(LIBMLX)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIB_FLAGS) -o $(NAME)
+	@echo "$(BOLD)$(YELLOW)\n$(NAME) successfully compiled.$(RESET)"
 
 # Rule to define how to generate object files (%.o) from corresponding
 # source files (%.c). Each .o file depends on the associated .c file and the
@@ -125,7 +143,9 @@ obj/%.o: src/%.c $(HDRS)
 # Target to remove all generated files.
 clean:
 	@rm -rf obj
-	@echo "$(BOLD)$(RED)Object files and libft.a removed.$(RESET)"
+	@rm -rf $(MLX_DIR)
+	@make -s -C $(LIBFT_DIR) fclean  >/dev/null 2>&1
+	@echo "$(BOLD)$(RED)Object and library files removed.$(RESET)"
 
 # Target to remove all generated files and the program executable.
 fclean:	clean
