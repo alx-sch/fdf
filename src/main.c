@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/12 23:16:22 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/13 20:40:01 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,11 @@
 
 // FILE
 
-//int		main(int argc, char **argv);
+int		main(int argc, char **argv);
 
 // init_fdf.c
 
 void	init_fdf(t_fdf *fdf, char *file);
-
-// map.c
-
-int		get_map_x(char *file);
-int		get_map_y(char *file);
-int		is_map_rect(char *file, int map_x);
 
 // hooks.c
 
@@ -42,15 +36,9 @@ int		render(t_fdf *fdf);
 void	msg_and_exit(char *msg, int exit_code);
 void	perror_and_exit(char *msg, int exit_code);
 
-// libft
-
-void	*ft_calloc(size_t nmemb, size_t size);
-
 //	+++++++++++++++
 //	++ FUNCTIONS ++
 //	+++++++++++++++
-
-
 
 //	+++++++++++++
 //	++ PROGRAM ++
@@ -82,20 +70,14 @@ void	*ft_calloc(size_t nmemb, size_t size);
 // 	return (0);
 // }
 
-
 int	main(int argc, char **argv)
 {
 	t_fdf	fdf;
 
 	if (argc != 2)
 		msg_and_exit(ERR_ARG, EXIT_ARG);
-
 	init_fdf(&fdf, argv[1]);
-
 	ft_printf("map_x: %d\n", fdf.map_x);
 	ft_printf("map_y: %d\n", fdf.map_y);
-	ft_printf("map_rect: %d\n", is_map_rect(argv[1], fdf.map_x));
-
 	free(fdf.map);
-
 }

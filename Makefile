@@ -6,7 +6,7 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/12 23:08:02 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/13 21:18:47 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME =			fdf
 SRCS :=			src/main.c \
 				src/init_fdf.c \
 				src/map.c \
+				src/map_check.c \
 				src/hooks.c \
 				src/render.c \
 				src/utils.c

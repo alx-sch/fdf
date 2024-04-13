@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:53:16 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/12 22:47:08 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/13 17:50:17 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 void	msg_and_exit(char *msg, int exit_code);
 void	perror_and_exit(char *msg, int exit_code);
 int		count_words(const char *str);
+int		ft_fgetc(int fd);
 
 // libft
 

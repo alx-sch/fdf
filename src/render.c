@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:37:19 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/11 19:12:26 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/13 20:41:21 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,9 @@ int	render(t_fdf *fdf)
 	if (!fdf->win_ptr)
 		return (1);
 	render_background(&fdf->img, WHITE);
-	render_rect(&fdf->img, (t_rect){WINDOW_W - 100, WINDOW_H - 100, 100, 100, GREEN});
+	render_rect(&fdf->img, (t_rect){WINDOW_W - 100, WINDOW_H - 100, 100, 100,
+		GREEN});
 	render_rect(&fdf->img, (t_rect){0, 0, 100, 100, RED});
-
 	mlx_put_image_to_window(fdf->mlx_ptr, fdf->win_ptr, fdf->img.img, 0, 0);
-
 	return (0);
 }

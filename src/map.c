@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:23:31 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/12 23:17:41 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/13 20:37:43 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,139 +14,111 @@
 
 // FILE
 
-int		get_map_x(char *file);
-int		get_map_y(char *file);
-int		is_map_rect(char *file, int map_x);
+int				check_and_count_lines(char *file);
+int				check_and_count_values_per_line(char *file);
+static void		check_value_counts(int val_count, int val_count_prev, int fd,
+					char *line);
+
+// map_check.c
+
+int				ft_fgetc(int fd);
+void			check_file(char *file, int fd_2);
 
 // utils.c
 
-void	perror_and_exit(char *msg, int exit_code);
-int		count_words(const char *str);
+void			perror_and_exit(char *msg, int exit_code);
+int				count_words(const char *str);
 
 // libft
 
-size_t	ft_strlen(const char *s);
-int		ft_strcmp(const char *s1, const char *s2);
+size_t			ft_strlen(const char *s);
+int				ft_strcmp(const char *s1, const char *s2);
 
 //	+++++++++++++++
 //	++ FUNCTIONS ++
 //	+++++++++++++++
 
 /*
-Checks if a given string ends with ".fdf". If it does, it returns 1;
-otherwise, it returns 0.
+Returns the map height (map_y).
+Also checks the validity of the file:
+- Exits the program if the passed file is not of type '.fdf'
+  or does not have the correct structure (empty, does not end with single
+  empty line).
+- If the file is valid, returns the number of lines in the provided file.
 */
-static int	is_fdf(char *str)
+int	check_and_count_lines(char *file)
 {
-	size_t	len;
-
-	if (!*str)
-		return (0);
-	len = ft_strlen(str);
-	while (len >= 0 && str[len] != '.')
-		len--;
-	if (!ft_strcmp(str + len, ".fdf"))
-		return (1);
-	return (0);
-}
-
-/*
-Opens the 'file' and reads the first line using get_next_line().
-Exits the program if passed file is not of type '.fdf'.
-It then counts the number of words in that line and returns the count as
-the width of the map.
-If the file cannot be opened or there are no lines to read, it returns -1.
-*/
-int	get_map_x(char *file)
-{
-	int		fd;
-	int		map_x;
-	char	*line;
+	int	fd;
+	int	line_count;
+	int	c;
 
 	fd = open(file, O_RDONLY);
-	if (-1 == fd)
+	if (fd == -1)
 		perror_and_exit(file, EXIT_FAILURE);
-	if (!is_fdf(file))
+	check_file(file, fd);
+	line_count = 0;
+	c = -1;
+	while (c != 0)
 	{
-		close(fd);
-		msg_and_exit(ERR_FILE_TYPE, EXIT_FILE_TYPE);
+		c = ft_fgetc(fd);
+		if (c == '\n')
+			line_count++;
 	}
-	map_x = -1;
-	line = get_next_line(fd);
-	if (!line)
-	{
-		close(fd);
-		return (map_x);
-	}
-	map_x = count_words(line);
-	free(line);
 	close(fd);
-	return (map_x);
+	return (line_count);
 }
 
 /*
-Opens the 'file' and reads each line using get_next_line().
-It counts the number of lines read until there are no more lines left.
-Finally, it returns the total count of lines read (height of the map).
-If the file cannot be opened, it returns 0.
+Used in check_and_count_values_per_line().
+Exits the program if the passed value counts are not the same, indicating a
+non-rectangular map. Before terminating, allocated memory for the passed line
+is freed, the passed fd is closed, and the static variable 'stash' used in
+get_next_line is freed by calling get_next_line(-1) (necessary when
+get_next_line is not executed until it returns NULL).
 */
-int	get_map_y(char *file)
+static void	check_value_counts(int val_count, int val_count_prev, int fd,
+	char *line)
+{
+	if (val_count_prev != -1 && val_count != val_count_prev)
+	{
+		free(line);
+		close(fd);
+		get_next_line(-1);
+		msg_and_exit(ERR_FILE_STRUC, EXIT_FILE_STRUC);
+	}
+}
+
+/*
+Returns the map width (map_x).
+Also checks the validity of the file:
+- Exits the program if the passed file is empty (only spaces)
+  or is not rectangular (not the same number of entries in each line).
+- If the file is valid, returns the number of entries/line.
+*/
+int	check_and_count_values_per_line(char *file)
 {
 	int		fd;
-	int		map_y;
+	int		val_count;
+	int		val_count_prev;
 	char	*line;
 
 	fd = open(file, O_RDONLY);
 	if (-1 == fd)
 		perror_and_exit(file, EXIT_FAILURE);
-	map_y = 0;
+	val_count_prev = -1;
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (!line)
 		{
 			close(fd);
-			return (map_y);
+			if (val_count_prev == 0)
+				msg_and_exit(ERR_FILE_STRUC, EXIT_FILE_STRUC);
+			return (val_count);
 		}
+		val_count = count_words(line);
+		check_value_counts(val_count, val_count_prev, fd, line);
+		val_count_prev = val_count;
 		free(line);
-		map_y++;
 	}
-}
-
-/*
-Opens the 'file' and reads each line using get_next_line().
-It counts the number of words in each line and compares it to 'map_x'
-(width of map in first line).
-If any line has a different number of words than 'map_x', indicating
-that the map is not rectangular, the function returns 0.
-Otherwise, it continues reading lines until the EOF, and then returns 1,
-indicating that the map is rectangular.
-*/
-int	is_map_rect(char *file, int map_x)
-{
-	int		fd;
-	int		line_x;
-	char	*line;
-
-	fd = open(file, O_RDONLY);
-	if (-1 == fd)
-		perror_and_exit(file, EXIT_FAILURE);
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (!line)
-		{
-			close(fd);
-			break ;
-		}
-		line_x = count_words(line);
-		free(line);
-		if (line_x != map_x)
-		{
-			close(fd);
-			get_next_line(-1);
-			return (0);
-		}
-	}
-	return (1);
 }
