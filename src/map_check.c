@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:23:31 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/13 21:20:27 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/14 13:37:46 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ static void	check_if_fdf(char *file, int fd);
 
 // utils.c
 
-void		msg_and_exit(char *msg, int exit_code);
-void		perror_and_exit(char *msg, int exit_code);
+void		msg_and_exit(char *msg);
+void		perror_and_exit(char *msg);
 
 // libft
 
@@ -66,7 +66,7 @@ static void	check_if_fdf(char *file, int fd)
 	if (ft_strcmp(file + len, ".fdf"))
 	{
 		close(fd);
-		msg_and_exit(ERR_FILE_TYPE, EXIT_FILE_TYPE);
+		msg_and_exit(ERR_FILE_TYPE);
 	}
 }
 
@@ -86,7 +86,7 @@ void	check_file(char *file, int fd_2)
 	check_if_fdf(file, fd_2);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		perror_and_exit(file, EXIT_FAILURE);
+		perror_and_exit(file);
 	c = -1;
 	while (c != '\0')
 	{
@@ -98,7 +98,7 @@ void	check_file(char *file, int fd_2)
 			{
 				close(fd);
 				close(fd_2);
-				msg_and_exit(ERR_FILE_STRUC, EXIT_FILE_STRUC);
+				msg_and_exit(ERR_FILE_STRUC);
 			}
 		}
 	}

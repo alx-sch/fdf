@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/13 20:42:34 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/14 13:39:48 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,13 @@
 # include <pthread.h> // thread-related functions
 
 # define ERR_ARG			"ERROR: Use './fdf map_file.fdf'!\n"
-# define ERR_FILE_TYPE		"ERROR: Wrong file format, use '.fdf'!\n"
-# define ERR_FILE_STRUC		"ERROR: Wrong map structure!\n"
-// Wrong structure: empty, non-rectangular, does not end with single empty line
+# define ERR_FILE_TYPE		"ERROR: Invalid file format, use '.fdf'!\n"
+# define ERR_FILE_STRUC		"ERROR: Invalid map structure!\n"
+// Inval. structure: empty, non-rectangular, does not end with single empty line
 # define ERR_MLX			"ERROR: MLX\n"
 
 # define EXIT_SUCCESS		0
 # define EXIT_FAILURE		1
-# define EXIT_ARG			2
-# define EXIT_FILE_TYPE		3
-# define EXIT_FILE_STRUC	4
 
 # define WINDOW_W 600
 # define WINDOW_H 300
@@ -62,7 +59,7 @@ typedef struct s_img
 	void	*img;
 	char	*addr;
 	int		bpp;
-	int		bytes_len;
+	int		line_len;
 	int		endian;
 }	t_img;
 
@@ -89,17 +86,6 @@ typedef struct s_rect
 //	++ PROGRAM ++
 //	+++++++++++++
 
-// main.c
-
-int		main(int argc, char **argv);
-
-// utils.c
-
-void	msg_and_exit(char *msg, int exit_code);
-
-// libft
-
-int		ft_printf(const char *format, ...);
 
 /*
 // MiniLibx

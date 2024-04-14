@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/13 20:40:01 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/14 13:54:12 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	init_fdf(t_fdf *fdf, char *file);
 
 int		handle_keypress(int keycode, t_fdf *fdf);
 int		handle_event(t_fdf *fdf);
+int		close_window(t_fdf *fdf);
 
 // render.c
 
@@ -33,8 +34,8 @@ int		render(t_fdf *fdf);
 
 // utils.c
 
-void	msg_and_exit(char *msg, int exit_code);
-void	perror_and_exit(char *msg, int exit_code);
+void	msg_and_exit(char *msg);
+void	perror_and_exit(char *msg);
 
 //	+++++++++++++++
 //	++ FUNCTIONS ++
@@ -44,22 +45,26 @@ void	perror_and_exit(char *msg, int exit_code);
 //	++ PROGRAM ++
 //	+++++++++++++
 
-// int	main(void)
+// int	main(int argc, char **argv)
 // {
 // 	t_fdf		fdf;
 
+// 	argc = 0;
+// 	argv[0] = "";
 // 	fdf.mlx_ptr = mlx_init();
 // 	if (!fdf.mlx_ptr)
-// 		msg_and_exit("MLX ERROR\n", MLX_ERROR);
+// 		msg_and_exit(ERR_MLX);
 // 	fdf.win_ptr = mlx_new_window(fdf.mlx_ptr, WINDOW_W, WINDOW_H, "TEST!");
 // 	if (!fdf.win_ptr)
-// 		msg_and_exit("MLX ERROR\n", MLX_ERROR);
+// 		msg_and_exit(ERR_MLX);
 
 // 	fdf.img.img = mlx_new_image(fdf.mlx_ptr, WINDOW_W, WINDOW_H);
-// 	fdf.img.addr = mlx_get_fdf_addr(fdf.img.img, &fdf.img.bpp,
+// 	fdf.img.addr = mlx_get_data_addr(fdf.img.img, &fdf.img.bpp,
 // 			&fdf.img.line_len, &fdf.img.endian);
 // 	mlx_loop_hook(fdf.mlx_ptr, &render, &fdf);
+
 // 	mlx_hook(fdf.win_ptr, KeyPress, KeyPressMask, &handle_keypress, &fdf);
+// 	mlx_hook(fdf.win_ptr, DestroyNotify, 0, &close_window, &fdf); // 'x' in window is clicked
 
 // 	mlx_loop(fdf.mlx_ptr);
 

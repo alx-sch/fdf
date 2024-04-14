@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:53:16 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/13 17:50:17 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/14 13:36:52 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 // FILE
 
-void	msg_and_exit(char *msg, int exit_code);
-void	perror_and_exit(char *msg, int exit_code);
+void	msg_and_exit(char *msg);
+void	perror_and_exit(char *msg);
 int		count_words(const char *str);
 int		ft_fgetc(int fd);
 
@@ -32,20 +32,20 @@ char	**ft_split(const char *s, char c);
 Prints an error message to stderr and exits the program with
 specified exit code.
 */
-void	msg_and_exit(char *msg, int exit_code)
+void	msg_and_exit(char *msg)
 {
 	ft_putstr_fd(msg, STDERR_FILENO);
-	exit(exit_code);
+	exit(EXIT_FAILURE);
 }
 
 /*
 Prints an error message to stderr via perror(), which also prints the last
 encountered error. Then, exits the program with specified exit code.
 */
-void	perror_and_exit(char *msg, int exit_code)
+void	perror_and_exit(char *msg)
 {
 	perror(msg);
-	exit(exit_code);
+	exit(EXIT_FAILURE);
 }
 
 int	create_color(int transparency, int red, int green, int blue)

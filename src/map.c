@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:23:31 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/13 20:37:43 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/14 13:42:08 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void			check_file(char *file, int fd_2);
 
 // utils.c
 
-void			perror_and_exit(char *msg, int exit_code);
+void			perror_and_exit(char *msg);
+void			msg_and_exit(char *msg);
 int				count_words(const char *str);
 
 // libft
@@ -54,7 +55,7 @@ int	check_and_count_lines(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		perror_and_exit(file, EXIT_FAILURE);
+		perror_and_exit(file);
 	check_file(file, fd);
 	line_count = 0;
 	c = -1;
@@ -84,7 +85,7 @@ static void	check_value_counts(int val_count, int val_count_prev, int fd,
 		free(line);
 		close(fd);
 		get_next_line(-1);
-		msg_and_exit(ERR_FILE_STRUC, EXIT_FILE_STRUC);
+		msg_and_exit(ERR_FILE_STRUC);
 	}
 }
 
@@ -104,7 +105,7 @@ int	check_and_count_values_per_line(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (-1 == fd)
-		perror_and_exit(file, EXIT_FAILURE);
+		perror_and_exit(file);
 	val_count_prev = -1;
 	while (1)
 	{
@@ -113,7 +114,7 @@ int	check_and_count_values_per_line(char *file)
 		{
 			close(fd);
 			if (val_count_prev == 0)
-				msg_and_exit(ERR_FILE_STRUC, EXIT_FILE_STRUC);
+				msg_and_exit(ERR_FILE_STRUC);
 			return (val_count);
 		}
 		val_count = count_words(line);
