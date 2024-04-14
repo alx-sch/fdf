@@ -6,34 +6,27 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:23:31 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/14 13:37:46 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/14 23:48:12 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+TBD
+*/
 
 #include "fdf.h"
 
 // FILE
 
-int			ft_fgetc(int fd);
-void		check_file(char *file, int fd_2);
-static void	check_if_fdf(char *file, int fd);
-
-// utils.c
-
-void		msg_and_exit(char *msg);
-void		perror_and_exit(char *msg);
-
-// libft
-
-size_t		ft_strlen(const char *s);
-int			ft_strcmp(const char *s1, const char *s2);
+int		ft_fgetc(int fd);
+void	check_file(char *file, int fd_2);
 
 //	+++++++++++++++
 //	++ FUNCTIONS ++
 //	+++++++++++++++
 
 /*
-Used in check_and_count_lines() and check_file().
+Used in check_and_get_map_y() and check_file().
 Reads one character at a time from the file descriptor 'fd'.
 Advances the file pointer with each call.
 */
@@ -66,12 +59,12 @@ static void	check_if_fdf(char *file, int fd)
 	if (ft_strcmp(file + len, ".fdf"))
 	{
 		close(fd);
-		msg_and_exit(ERR_FILE_TYPE);
+		msg_and_exit(ERR_FILE_TYPE, NULL);
 	}
 }
 
 /*
-Used in check_and_count_lines().
+Used in check_and_get_map_y().
 Verifies the structure and validity of a given file.
 It closes the passed 'fd_2' and terminates the program if:
 - The file does not end with the '.fdf' extension.
@@ -86,7 +79,7 @@ void	check_file(char *file, int fd_2)
 	check_if_fdf(file, fd_2);
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		perror_and_exit(file);
+		perror_and_exit(file, NULL);
 	c = -1;
 	while (c != '\0')
 	{
@@ -98,7 +91,7 @@ void	check_file(char *file, int fd_2)
 			{
 				close(fd);
 				close(fd_2);
-				msg_and_exit(ERR_FILE_STRUC);
+				msg_and_exit(ERR_FILE_STRUC, NULL);
 			}
 		}
 	}

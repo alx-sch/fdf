@@ -1,39 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map.c                                              :+:      :+:    :+:   */
+/*   map_get.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:23:31 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/14 13:42:08 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/15 00:46:08 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/*
+TBD
+*/
 
 #include "fdf.h"
 
 // FILE
 
-int				check_and_count_lines(char *file);
-int				check_and_count_values_per_line(char *file);
-static void		check_value_counts(int val_count, int val_count_prev, int fd,
-					char *line);
-
-// map_check.c
-
-int				ft_fgetc(int fd);
-void			check_file(char *file, int fd_2);
-
-// utils.c
-
-void			perror_and_exit(char *msg);
-void			msg_and_exit(char *msg);
-int				count_words(const char *str);
-
-// libft
-
-size_t			ft_strlen(const char *s);
-int				ft_strcmp(const char *s1, const char *s2);
+int		check_and_get_map_y(char *file);
+int		check_and_get_map_x(char *file);
 
 //	+++++++++++++++
 //	++ FUNCTIONS ++
@@ -43,11 +29,10 @@ int				ft_strcmp(const char *s1, const char *s2);
 Returns the map height (map_y).
 Also checks the validity of the file:
 - Exits the program if the passed file is not of type '.fdf'
-  or does not have the correct structure (empty, does not end with single
-  empty line).
+  or does not end with single empty line).
 - If the file is valid, returns the number of lines in the provided file.
 */
-int	check_and_count_lines(char *file)
+int	check_and_get_map_y(char *file)
 {
 	int	fd;
 	int	line_count;
@@ -55,7 +40,7 @@ int	check_and_count_lines(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		perror_and_exit(file);
+		perror_and_exit(file, NULL);
 	check_file(file, fd);
 	line_count = 0;
 	c = -1;
@@ -70,7 +55,38 @@ int	check_and_count_lines(char *file)
 }
 
 /*
-Used in check_and_count_values_per_line().
+Used in check_and_get_map_x().
+Counts count the number of words in the given string, where words are separated
+by spaces, newline characters or EOF.
+*/
+static int	count_words(const char *str)
+{
+	int	count;
+	int	i;
+
+	count = 0;
+	i = 0;
+	while (str[i] && str[i] == ' ')
+		i++;
+	while (str[i] && str[i] != '\n')
+	{
+		if (str[i] != ' ' && str[i] != '\n')
+		{
+			count++;
+			while (str[i] && str[i] != ' ')
+				i++;
+		}
+		else
+		{
+			while (str[i] && str[i] == ' ')
+				i++;
+		}
+	}
+	return (count);
+}
+
+/*
+Used in check_and_get_map_x().
 Exits the program if the passed value counts are not the same, indicating a
 non-rectangular map. Before terminating, allocated memory for the passed line
 is freed, the passed fd is closed, and the static variable 'stash' used in
@@ -85,18 +101,18 @@ static void	check_value_counts(int val_count, int val_count_prev, int fd,
 		free(line);
 		close(fd);
 		get_next_line(-1);
-		msg_and_exit(ERR_FILE_STRUC);
+		msg_and_exit(ERR_FILE_STRUC, NULL);
 	}
 }
 
 /*
 Returns the map width (map_x).
 Also checks the validity of the file:
-- Exits the program if the passed file is empty (only spaces)
+- Exits the program if the passed file is empty (no values)
   or is not rectangular (not the same number of entries in each line).
 - If the file is valid, returns the number of entries/line.
 */
-int	check_and_count_values_per_line(char *file)
+int	check_and_get_map_x(char *file)
 {
 	int		fd;
 	int		val_count;
@@ -105,7 +121,7 @@ int	check_and_count_values_per_line(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (-1 == fd)
-		perror_and_exit(file);
+		perror_and_exit(file, NULL);
 	val_count_prev = -1;
 	while (1)
 	{
@@ -114,7 +130,7 @@ int	check_and_count_values_per_line(char *file)
 		{
 			close(fd);
 			if (val_count_prev == 0)
-				msg_and_exit(ERR_FILE_STRUC);
+				msg_and_exit(ERR_FILE_STRUC, NULL);
 			return (val_count);
 		}
 		val_count = count_words(line);
