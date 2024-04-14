@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 20:39:48 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/15 00:48:38 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/15 01:05:15 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ static	void	parse_map_z(t_fdf *fdf, int row, char *line)
 
 	col = 0;
 	token_arr = ft_split(line, ' ');
+	if (!token_arr)
+		perror_and_exit(ERR_SPLIT, fdf);
 	while (col < fdf->map_x)
 	{
 		fdf->map_z[row][col] = ft_atoi(token_arr[col]);
@@ -83,7 +85,7 @@ void	get_map_z(t_fdf *fdf, char *file)
 			perror_and_exit(ERR_MALLOC, fdf);
 		line = get_next_line(fd);
 		if (!line)
-			perror_and_exit("get_next_line", fdf);
+			perror_and_exit(ERR_GNL, fdf);
 		parse_map_z(fdf, row, line);
 		free(line);
 		row++;
@@ -97,12 +99,14 @@ Helper function for get_map_color().
 static void	parse_map_color(t_fdf *fdf, int row, char *line)
 {
 	int		col;
-	char	**token_arr;
 	char	*color_str;
+	char	**token_arr;
 
 	col = 0;
-	token_arr = ft_split(line, ' ');
 	color_str = NULL;
+	token_arr = ft_split(line, ' ');
+	if (!token_arr)
+		perror_and_exit(ERR_SPLIT, fdf);
 	while (col < fdf->map_x)
 	{
 		color_str = ft_strchr(token_arr[col], ',');
@@ -138,7 +142,7 @@ void	get_map_color(t_fdf *fdf, char *file)
 			perror_and_exit(ERR_MALLOC, fdf);
 		line = get_next_line(fd);
 		if (!line)
-			perror_and_exit("get_next_line", fdf);
+			perror_and_exit(ERR_GNL, fdf);
 		parse_map_color(fdf, row, line);
 		free(line);
 		row++;

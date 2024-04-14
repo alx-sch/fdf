@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/15 00:48:59 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/15 01:06:19 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,22 @@
 //	++ MACROS ++
 //	++++++++++++
 
-# define BG_COLOR	WHITE	// Set the background color
-# define WIRE_COLOR	SKY_BLUE // Set the default color for the wireframe
+# define BG_COLOR			WHITE	// Set the background color
+# define WIRE_COLOR			SKY_BLUE // Set the default color for the wireframe
 
-// Error messages passed to the stderr:
+// Error messages passed to the stderr (no '\n' when passed to perror()):
 
 # define ERR_ARG			"ERROR: Use './fdf map_file.fdf'!\n"
 # define ERR_FILE_TYPE		"ERROR: Invalid file format, use '.fdf'!\n"
 # define ERR_MLX			"ERROR: MLX\n"
-# define ERR_MALLOC			"ERROR: malloc failed"
-# define ERR_GNL			"ERROR: get_next_line failed"
+# define ERR_MALLOC			"ERROR: malloc() failed"
+# define ERR_GNL			"ERROR: get_next_line() failed"
+# define ERR_SPLIT			"ERROR: ft_split() failed"
 # define ERR_FILE_STRUC		"ERROR: Invalid map structure!\n"
 // Inval. structure: empty, non-rectangular, does not end with single empty line
 
-# define WINDOW_W 600
-# define WINDOW_H 300
+# define WINDOW_W		600
+# define WINDOW_H		300
 
 //	++++++++++++++++
 //	++ STRUCTURES ++
