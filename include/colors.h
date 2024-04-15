@@ -6,15 +6,18 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 14:55:38 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/15 01:11:13 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/15 19:22:11 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COLORS_H
 # define COLORS_H
 
+
+# define BG_COLOR		WHITE	// Set the background color
+# define WIRE_COLOR		SKY_BLUE // Set the default color for the wireframe
+
 // List of Color Macros (as suggested by ChatGPT)
-// Used in fdf.h to set colors for the background and wires.
 
 # define BLACK			0x000000
 # define WHITE			0xFFFFFF

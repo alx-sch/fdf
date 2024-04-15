@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:23:31 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/15 00:46:08 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/15 16:11:27 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		check_and_get_map_x(char *file);
 
 /*
 Returns the map height (map_y).
-Also checks the validity of the file:
+Also checks the validity of the file via check_file():
 - Exits the program if the passed file is not of type '.fdf'
   or does not end with single empty line).
 - If the file is valid, returns the number of lines in the provided file.
@@ -108,9 +108,10 @@ static void	check_value_counts(int val_count, int val_count_prev, int fd,
 /*
 Returns the map width (map_x).
 Also checks the validity of the file:
-- Exits the program if the passed file is empty (no values)
-  or is not rectangular (not the same number of entries in each line).
-- If the file is valid, returns the number of entries/line.
+- Exits the program if the passed file is empty (no values, e.g. only spaces)
+  or is not rectangular (not the same number of entries in each line,
+  checked via check_value_counts()).
+- If the file is valid, returns the number of entries per line.
 */
 int	check_and_get_map_x(char *file)
 {

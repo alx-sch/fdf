@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:23:31 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/14 23:48:12 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/15 16:08:09 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ TBD
 
 // FILE
 
-int		ft_fgetc(int fd);
 void	check_file(char *file, int fd_2);
 
 //	+++++++++++++++
@@ -26,27 +25,10 @@ void	check_file(char *file, int fd_2);
 //	+++++++++++++++
 
 /*
-Used in check_and_get_map_y() and check_file().
-Reads one character at a time from the file descriptor 'fd'.
-Advances the file pointer with each call.
-*/
-int	ft_fgetc(int fd)
-{
-	char	c;
-	ssize_t	bytes_read;
-
-	bytes_read = read(fd, &c, 1);
-	if (bytes_read == 1)
-		return ((int)c);
-	else
-		return (0);
-}
-
-/*
 Used in check_file().
 Verifies if the given 'file' ends with the '.fdf' extension.
 If it doesn't, the function closes the file descriptor 'fd' and exits
-the program, indicating an incorrect file type.
+the program, indicating an invalid file type.
 If it does end with '.fdf', no action is taken.
 */
 static void	check_if_fdf(char *file, int fd)

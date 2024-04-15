@@ -6,19 +6,20 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/15 01:06:19 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/15 19:19:42 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
+# include "colors.h" // Color Macros
+# include "errors.h" // Error Message Macros
+
 # include "../lib/libft/libft.h" // libft
 # include <X11/keysym.h> // Macros for key symbols, e.g. XK_Escape
 # include <X11/X.h> //Macros releated to the event names/masks, e.g. KeyPress
 # include <mlx.h> // MiniLibX
-
-# include "colors.h" // Color Macros
 
 # include <stdlib.h> // malloc, free, exit
 # include <fcntl.h> // open, close, read, write
@@ -29,20 +30,6 @@
 //	++++++++++++
 //	++ MACROS ++
 //	++++++++++++
-
-# define BG_COLOR			WHITE	// Set the background color
-# define WIRE_COLOR			SKY_BLUE // Set the default color for the wireframe
-
-// Error messages passed to the stderr (no '\n' when passed to perror()):
-
-# define ERR_ARG			"ERROR: Use './fdf map_file.fdf'!\n"
-# define ERR_FILE_TYPE		"ERROR: Invalid file format, use '.fdf'!\n"
-# define ERR_MLX			"ERROR: MLX\n"
-# define ERR_MALLOC			"ERROR: malloc() failed"
-# define ERR_GNL			"ERROR: get_next_line() failed"
-# define ERR_SPLIT			"ERROR: ft_split() failed"
-# define ERR_FILE_STRUC		"ERROR: Invalid map structure!\n"
-// Inval. structure: empty, non-rectangular, does not end with single empty line
 
 # define WINDOW_W		600
 # define WINDOW_H		300
@@ -56,7 +43,8 @@
 //	- void *img:	Pointer to image object. Used when manipulating image as a
 //					whole, e.g. loading into memory or passing to redering ftcs.
 //	- char *data:	Pointer to the start of image data -> raw pixel information.
-//					Used in operations reading/modifying individual pixels.
+//					Used in operations reading/modifying individual pixels, such
+//					as setting the color.
 //	- int bpp:		Number of bits used to represent each pixel, which
 //					defines the color depth: 32 bits (4 bytes) -> TRGB
 //	- int size_len:	Length of each line in the image in bytes,
@@ -107,26 +95,22 @@ typedef struct s_rect
 //	++ FUNCTIONS ++
 //	+++++++++++++++
 
-
-// map_check.c
-
-int		ft_fgetc(int fd);
-void	check_file(char *file, int fd_2);
-
-// map_get.c
+// map.c
 
 int		check_and_get_map_x(char *file);
 int		check_and_get_map_y(char *file);
 
-// fdf_init.c
+// map_utils.c
+
+void	check_file(char *file, int fd_2);
+
+// fdf_struct.c
 
 void	init_fdf(t_fdf *fdf, char *file);
-
-// fdf_free.c
-
 void	free_fdf(t_fdf *fdf);
 
-// values_get.c
+
+// values.c
 
 void	get_map_z(t_fdf *fdf, char *file);
 void	get_map_color(t_fdf *fdf, char *file);
@@ -145,5 +129,7 @@ int		render(t_fdf *fdf);
 
 void	msg_and_exit(char *msg, t_fdf *fdf);
 void	perror_and_exit(char *msg, t_fdf *fdf);
+int		ft_fgetc(int fd);
+void	free_arr(char **array);
 
 #endif

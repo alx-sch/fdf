@@ -6,7 +6,7 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/15 00:43:01 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/15 19:23:02 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,19 +14,18 @@ NAME =			fdf
 
 SRCS :=			src/main.c \
 				src/utils.c \
-				src/map_check.c \
-				src/map_get.c \
-				src/values_get.c \
-				src/values_parse.c \
-				src/fdf_init.c \
-				src/fdf_free.c \
+				src/file.c \
+				src/file_utils.c \
+				src/values.c \
+				src/fdf_struct.c \
 				src/mlx_render.c \
 				src/mlx_hooks.c
 
 OBJS :=			$(SRCS:src/%.c=obj/%.o)
 
 HDRS := 		include/fdf.h \
-				include/colors.h
+				include/colors.h \
+				include/errors.h
 
 # LIBFT
 LIBFT_DIR =		lib/libft
