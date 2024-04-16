@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 23:00:59 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/16 20:42:02 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/16 23:59:41 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,13 @@ void	free_fdf(t_fdf *fdf)
 
 	if (!fdf)
 		return ;
+	if (fdf->mlx)
+	{
+		if (fdf->img.img)
+			mlx_destroy_image(fdf->mlx, fdf->img.img);
+		mlx_destroy_display(fdf->mlx);
+		free(fdf->mlx);
+	}
 	close (fdf->fd);
 	if (fdf->line)
 	{
@@ -49,8 +56,6 @@ void	free_fdf(t_fdf *fdf)
 		free(fdf->map_color);
 		fdf->map_color = NULL;
 	}
-	if (fdf->mlx)
-		free(fdf->mlx);
 }
 
 /*

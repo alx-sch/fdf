@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/16 20:47:48 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/17 01:20:04 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,14 @@
 # include "errors.h" // Error Message Macros
 
 # include "../lib/libft/libft.h" // libft
+# include "../lib/mlx/mlx.h" // MiniLibX
 # include <X11/keysym.h> // Macros for key symbols, e.g. XK_Escape
 # include <X11/X.h> //Macros releated to the event names/masks, e.g. KeyPress
-# include <mlx.h> // MiniLibX
 
 # include <stdlib.h> // malloc, free, exit
 # include <fcntl.h> // open, close, read, write
 # include <stdio.h> // perror
 # include <string.h> // strerror
-//# include <pthread.h> // thread-related functions
 
 //	++++++++++++
 //	++ MACROS ++
@@ -33,7 +32,7 @@
 
 # define WINDOW_W		600
 # define WINDOW_H		300
-# define WINDOW_TITLE	"Test!"
+# define WINDOW_TITLE	"fdf by Alex Schenk @42 Berlin"
 
 //	++++++++++++++++
 //	++ STRUCTURES ++

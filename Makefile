@@ -6,52 +6,57 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/16 17:18:51 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/17 01:16:52 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME =			fdf
+NAME :=			fdf
 
-SRCS :=			src/main.c \
-				src/utils.c \
-				src/map_x_y.c \
-				src/map_z.c \
-				src/map_color.c \
-				src/free.c \
-				src/mlx_render.c \
-				src/mlx_hooks.c
+SRCS_DIR :=		src
+SRCS :=			$(SRCS_DIR)/main.c \
+				$(SRCS_DIR)/utils.c \
+				$(SRCS_DIR)/map_x_y.c \
+				$(SRCS_DIR)/map_z.c \
+				$(SRCS_DIR)/map_color.c \
+				$(SRCS_DIR)/free.c \
+				$(SRCS_DIR)/mlx_render.c \
+				$(SRCS_DIR)/mlx_hooks.c
 
-OBJS :=			$(SRCS:src/%.c=obj/%.o)
+OBJS_DIR :=		obj
+OBJS :=			$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
-HDRS := 		include/fdf.h \
-				include/colors.h \
-				include/errors.h
+HDRS_DIR := 	include
+HDRS := 		$(HDRS_DIR)/fdf.h \
+				$(HDRS_DIR)/colors.h \
+				$(HDRS_DIR)/errors.h
 
 # LIBFT
-LIBFT_DIR =		lib/libft
-LIBFT_FLAGS =	-L$(LIBFT_DIR) -lft
-LIBFT =			$(LIBFT_DIR)/libft.a
+LIBFT_DIR :=	lib/libft
+LIBFT_FLAGS :=	-L$(LIBFT_DIR) -lft
+LIBFT :=		$(LIBFT_DIR)/libft.a
 
 # MiniLibX
-MLX_DIR =		lib/mlx
-MLX_FLAGS =		-L$(MLX_DIR) -lmlx -lXext -lX11
-LIBMLX =		$(MLX_DIR)/libmlx.a
+MLX_DIR :=		lib/mlx
+MLX_FLAGS :=	-L$(MLX_DIR) -lmlx -lXext -lX11
+LIBMLX :=		$(MLX_DIR)/libmlx.a
 
-LIB_FLAGS =		$(LIBFT_FLAGS) $(MLX_FLAGS) -lm # -lm: math library
+LIB_FLAGS :=	$(LIBFT_FLAGS) $(MLX_FLAGS) -lm # -lm: math library
 
-CC =			cc
-CFLAGS =		-Wall -Wextra -Werror -Iinclude
+CC :=			cc
+CFLAGS :=		-Wall -Wextra -Werror -I$(HDRS_DIR)
 
 # For compilation progress bar
 TOTAL_SRCS :=	$(words $(SRCS))
 SRC_NUM :=		0
 
 # Colors and styles
-RESET =			\033[0m
-BOLD =			\033[1m
-RED =			\033[31;2m
-GREEN =			\033[32m
-YELLOW =		\033[33m
+RESET :=		\033[0m
+BOLD :=			\033[1m
+RED :=			\033[31;2m
+GREEN :=		\033[32m
+YELLOW :=		\033[33m
+
+LOGO := "$(BOLD)${RED}  _     _     _  \n / \   / \   / \ \n( ${GREEN}F${RED} ) ( ${GREEN}D${RED} ) ( ${GREEN}F${RED} )\n \_/   \_/   \_/    \n\n$(RESET)$(BOLD)a project by Alex Schenk @42 Berlin, April 2024\n$(RESET)"
 
 # Building dependencies MiniLibX, libft, and the program when 'make' is called.
 all:	$(LIBMLX) $(LIBFT) $(NAME)
@@ -127,6 +132,8 @@ $(LIBFT):	$(LIBFT_DIR)/libft.h \
 $(NAME):	$(OBJS) $(LIBFT) $(LIBMLX)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIB_FLAGS) -o $(NAME)
 	@echo "$(BOLD)$(YELLOW)\n$(NAME) successfully compiled.$(RESET)"
+	@echo $(LOGO)
+	@echo "Usage: ./fdf map.fdf\n"
 
 # Rule to define how to generate object files (%.o) from corresponding
 # source files (%.c). Each .o file depends on the associated .c file and the
@@ -134,7 +141,7 @@ $(NAME):	$(OBJS) $(LIBFT) $(LIBMLX)
 # -c:		Generates o. files without linking.
 # -o $@:	Output file name;  '$@' is replaced with target name (the o. file).
 # -$<:		Represents the first prerequisite (the c. file).
-obj/%.o: src/%.c $(HDRS)
+$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HDRS)
 	@mkdir -p $(@D)
 	@$(eval SRC_NUM := $(shell expr $(SRC_NUM) + 1))
 	@$(eval PERCENT := $(shell printf "%.0f" $(shell echo "scale=4; $(SRC_NUM) / $(TOTAL_SRCS) * 100" | bc)))
@@ -150,7 +157,7 @@ obj/%.o: src/%.c $(HDRS)
 
 # Target to remove all generated files BUT the program executable.
 clean:
-	@rm -rf obj
+	@rm -rf $(OBJS_DIR)
 	@rm -rf $(MLX_DIR)
 	@make -s -C $(LIBFT_DIR) fclean  >/dev/null 2>&1
 	@echo "$(BOLD)$(RED)Object and library files removed.$(RESET)"
