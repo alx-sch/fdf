@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:12:59 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/16 20:32:17 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/16 20:48:46 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	get_color_code(char *color_str, char **token_arr, t_fdf *fdf)
 			return (color_int);
 	}
 	free_arr(token_arr);
-	free_map(fdf);
+	free_fdf(fdf);
 	ft_putstr_fd(ERR_COLOR, STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }
@@ -49,7 +49,7 @@ static int	get_color_code(char *color_str, char **token_arr, t_fdf *fdf)
 /*
 Used in get_map_color().
 If your color information is consistently provided in a format like 0xRRGGBB,
- you can directly parse it as an integer without extracting it as a string.
+you can directly parse it as an integer without extracting it as a string.
 */
 static void	parse_map_color(t_fdf *fdf, int y)
 {

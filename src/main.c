@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/16 20:33:21 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/16 20:47:38 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,17 +137,7 @@ int	main(int argc, char **argv)
 
 	mlx_destroy_image(fdf.mlx, fdf.img.img);
 	mlx_destroy_display(fdf.mlx);
-	free(fdf.mlx);
-
-	// if (fdf.mlx)
-	// {
-	// 	if (fdf.img.img)
-	// 		mlx_destroy_image(fdf.mlx, fdf.img.img);
-	// 	mlx_destroy_display(fdf.mlx);
-	// 	free(fdf.mlx);
-	// }
-	free_map(&fdf);
-	//free_mlx(&fdf);
+	free_fdf(&fdf);
 	exit(EXIT_SUCCESS);
 }
 
