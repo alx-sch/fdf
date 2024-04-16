@@ -1,22 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   mlx_render.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:37:19 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/14 19:12:15 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/16 20:13:47 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+void	render_image(t_fdf *fdf);
+
 //	Sets the color of a pixel at a specified position within an image buffer.
 //	Calculates the memory location (pixel) where the color value will be stored
 //	in the image buffer. The function then stores the color value at that
 //	location in the image buffer.
-void	img_pix_put(t_img *img, int x, int y, int color)
+static void	img_pix_put(t_img *img, int x, int y, int color)
 {
 	char	*pixel;
 
@@ -24,7 +26,7 @@ void	img_pix_put(t_img *img, int x, int y, int color)
 	*(int *)pixel = color;
 }
 
-int	render_rect(t_img *img, t_rect rect)
+static int	render_rect(t_img *img, t_rect rect)
 {
 	int	i;
 	int	j;
@@ -40,7 +42,7 @@ int	render_rect(t_img *img, t_rect rect)
 	return (0);
 }
 
-void	render_background(t_img *img, int color)
+static void	render_background(t_img *img, int color)
 {
 	int	i;
 	int	j;
@@ -56,7 +58,7 @@ void	render_background(t_img *img, int color)
 }
 
 
-int	render(t_fdf *fdf)
+static int	render(t_fdf *fdf)
 {
 	if (!fdf->win)
 		return (1);
@@ -66,4 +68,15 @@ int	render(t_fdf *fdf)
 	render_rect(&fdf->img, (t_rect){0, 0, 100, 100, RED});
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img.img, 0, 0);
 	return (0);
+}
+
+void	render_image(t_fdf *fdf)
+{
+	mlx_loop_hook(fdf->mlx, &render, fdf);
+
+	mlx_hook(fdf->win, KeyPress, KeyPressMask, &handle_keypress, fdf);
+	mlx_hook(fdf->win, DestroyNotify, 0, &close_window, fdf); // 'x' in window is clicked
+
+	mlx_loop(fdf->mlx);
+
 }

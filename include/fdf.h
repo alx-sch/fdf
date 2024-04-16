@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/16 12:55:00 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/16 20:30:03 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 
 # define WINDOW_W		600
 # define WINDOW_H		300
+# define WINDOW_TITLE	"Test!"
 
 //	++++++++++++++++
 //	++ STRUCTURES ++
@@ -69,6 +70,8 @@ typedef struct s_fdf
 	void	*mlx;
 	void	*win;
 	t_img	img;
+	int		fd;
+	char	*line;
 	int		map_x;
 	int		map_y;
 	int		**map_z;
@@ -89,31 +92,29 @@ typedef struct s_rect
 //	++ PROGRAM ++
 //	+++++++++++++
 
+// main.c
 
+int		main(int argc, char **argv);
 
 //	+++++++++++++++
 //	++ FUNCTIONS ++
 //	+++++++++++++++
 
-// map.c
+// map_x_y.c
 
-void	get_map_x(t_fdf *fdf, char *file);
-void	get_map_y(t_fdf *fdf, char *file);
+void	get_map_x_and_y(t_fdf *fdf, char *file);
 
-// map_utils.c
-
-void	check_file(char *file, int fd_2);
-
-// fdf_struct.c
-
-void	init_fdf(t_fdf *fdf, char *file);
-void	free_fdf(t_fdf *fdf);
-
-
-// values.c
+// map_z.c
 
 void	get_map_z(t_fdf *fdf, char *file);
+
+// map_color.c
+
 void	get_map_color(t_fdf *fdf, char *file);
+
+// mlx_render.c
+
+void	render_image(t_fdf *fdf);
 
 // mlx_hooks.c
 
@@ -121,15 +122,15 @@ int		handle_keypress(int keycode, t_fdf *fdf);
 int		handle_event(t_fdf *fdf);
 int		close_window(t_fdf *fdf);
 
-// mlx_render.c
+// free.c
 
-int		render(t_fdf *fdf);
+void	free_map(t_fdf *fdf);
+void	free_mlx(t_fdf *fdf);
+void	free_arr(char **array);
 
 // utils.c
 
 void	msg_and_exit(char *msg, t_fdf *fdf);
 void	perror_and_exit(char *msg, t_fdf *fdf);
-int		ft_fgetc(int fd);
-void	free_arr(char **array);
 
 #endif

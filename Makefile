@@ -6,7 +6,7 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/15 19:23:02 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/16 17:18:51 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,10 @@ NAME =			fdf
 
 SRCS :=			src/main.c \
 				src/utils.c \
-				src/file.c \
-				src/file_utils.c \
-				src/values.c \
-				src/fdf_struct.c \
+				src/map_x_y.c \
+				src/map_z.c \
+				src/map_color.c \
+				src/free.c \
 				src/mlx_render.c \
 				src/mlx_hooks.c
 
