@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_get.c                                          :+:      :+:    :+:   */
+/*   file.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 18:23:31 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/15 16:11:27 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/16 13:01:39 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ TBD
 
 // FILE
 
-int		check_and_get_map_y(char *file);
-int		check_and_get_map_x(char *file);
+void	get_map_y(t_fdf *fdf, char *file);
+void	get_map_x(t_fdf *fdf, char *file);
 
 //	+++++++++++++++
 //	++ FUNCTIONS ++
@@ -32,7 +32,7 @@ Also checks the validity of the file via check_file():
   or does not end with single empty line).
 - If the file is valid, returns the number of lines in the provided file.
 */
-int	check_and_get_map_y(char *file)
+void	get_map_y(t_fdf *fdf, char *file)
 {
 	int	fd;
 	int	line_count;
@@ -51,7 +51,7 @@ int	check_and_get_map_y(char *file)
 			line_count++;
 	}
 	close(fd);
-	return (line_count);
+	fdf->map_y = line_count;
 }
 
 /*
@@ -113,7 +113,7 @@ Also checks the validity of the file:
   checked via check_value_counts()).
 - If the file is valid, returns the number of entries per line.
 */
-int	check_and_get_map_x(char *file)
+void	get_map_x(t_fdf *fdf, char *file)
 {
 	int		fd;
 	int		val_count;
@@ -132,7 +132,8 @@ int	check_and_get_map_x(char *file)
 			close(fd);
 			if (val_count_prev == 0)
 				msg_and_exit(ERR_FILE_STRUC, NULL);
-			return (val_count);
+			fdf->map_x = val_count;
+			return ;
 		}
 		val_count = count_words(line);
 		check_value_counts(val_count, val_count_prev, fd, line);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fdf_init.c                                         :+:      :+:    :+:   */
+/*   fdf_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 23:00:59 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/15 19:05:50 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/16 12:57:07 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ static void	null_fdf(t_fdf *fdf)
 void	init_fdf(t_fdf *fdf, char *file)
 {
 	null_fdf(fdf);
-	fdf->map_y = check_and_get_map_y(file);
-	fdf->map_x = check_and_get_map_x(file);
+	get_map_y(fdf, file);
+	get_map_x(fdf, file);
 	get_map_z(fdf, file);
 	get_map_color(fdf, file);
 }

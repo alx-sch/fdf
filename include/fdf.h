@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/15 19:19:42 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/16 12:55:00 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ typedef struct s_rect
 
 // map.c
 
-int		check_and_get_map_x(char *file);
-int		check_and_get_map_y(char *file);
+void	get_map_x(t_fdf *fdf, char *file);
+void	get_map_y(t_fdf *fdf, char *file);
 
 // map_utils.c
 
