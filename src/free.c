@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 23:00:59 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/17 16:56:45 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/17 17:11:23 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ static void	free_int_arr(int ***array_ptr, t_fdf *fdf)
 Frees/closes all ressources allocated for the fdf structure, including
 mlx-related ressources, file descriptor, memory for line reading and matrices
 of int values for map z and colors.
+get_next_line(-1) is called to free the static 'stash' used between gnl calls
+(which is necessary if file was not read until EOF).
 */
 void	free_fdf(t_fdf *fdf)
 {

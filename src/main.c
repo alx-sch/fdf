@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/17 16:30:19 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/17 17:10:54 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,9 @@ static void	check_file(int argc, char **argv)
 
 /*
 Initializing map members in the fdf structure to NULL / zero.
-This helps to avoid accessing variables that are not initialized.
+This helps to avoid accessing variables that are not initialized, e.g.
+in free_fdf() which is automatically called throughout the program once
+the program terminates due to an error.
 */
 static void	null_fdf(t_fdf *fdf)
 {
@@ -64,28 +66,21 @@ static void	null_fdf(t_fdf *fdf)
 }
 
 /*
-Initialiazes map members of the'fdf' structure:
+Initialiazes members of the'fdf' structure:
+- Initializing
 - Map width (fdf->map_x)
 - Map height (fdf->map_y)
 - Map depth (fdf->map_z)
+- The connection to the graphic system (fdf->mlx)
+- The window (fdf->win)
+- The image buffer (fdf->img)
 */
-static void	init_map(t_fdf *fdf, char *file)
+static void	init_fdf(t_fdf *fdf, char *file)
 {
 	null_fdf(fdf);
 	get_map_x_and_y(fdf, file);
 	get_map_z(fdf, file);
 	get_map_color(fdf, file);
-
-}
-
-/*
-Initialiazes graphic-related members of the 'fdf' structure:
-- The connection to the graphic system (fdf->mlx)
-- The window (fdf->win)
-- The image buffer (fdf->img)
-*/
-static void	init_mlx(t_fdf *fdf)
-{
 	fdf->mlx = mlx_init();
 	if (!fdf->mlx)
 		msg_and_exit(ERR_MLX, fdf);
@@ -96,6 +91,14 @@ static void	init_mlx(t_fdf *fdf)
 	fdf->img.data = mlx_get_data_addr(fdf->img.img, &fdf->img.bpp,
 			&fdf->img.size_len, &fdf->img.endian);
 }
+
+/*
+Initialiazes graphic-related members of the 'fdf' structure:
+- The connection to the graphic system (fdf->mlx)
+- The window (fdf->win)
+- The image buffer (fdf->img)
+*/
+
 
 //	+++++++++++++
 //	++ PROGRAM ++
@@ -116,25 +119,24 @@ int	main(int argc, char **argv)
 	t_fdf		fdf;
 
 	check_file(argc, argv);
-	init_map(&fdf, argv[1]);
-	init_mlx(&fdf);
+	init_fdf(&fdf, argv[1]);
 
 	render_image(&fdf);
 
 ///
-	// ft_printf("map_x: %d\n", fdf.map_x);
-	// ft_printf("map_y: %d\n", fdf.map_y);
+	ft_printf("map_x: %d\n", fdf.map_x);
+	ft_printf("map_y: %d\n", fdf.map_y);
 
-	// ft_printf("\nZ values:\n");
-	// print_int_2d_array(fdf.map_z, fdf.map_y, fdf.map_x);
+	ft_printf("\nZ values:\n");
+	print_int_2d_array(fdf.map_z, fdf.map_y, fdf.map_x);
 
-	// ft_printf("\nColor values:\n");
-	// print_int_2d_array(fdf.map_color, fdf.map_y, fdf.map_x);
+	ft_printf("\nColor values:\n");
+	print_int_2d_array(fdf.map_color, fdf.map_y, fdf.map_x);
 
-	// if (fdf.color_provided)
-	// 	ft_printf("\nColor provided!\n");
-	// else
-	// 	ft_printf("\nColor NOT provided!\n");
+	if (fdf.color_provided)
+		ft_printf("\nColor provided!\n");
+	else
+		ft_printf("\nColor NOT provided!\n");
 ///
 
 	free_fdf(&fdf);
