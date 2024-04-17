@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/17 17:10:54 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/17 18:33:43 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static void	null_fdf(t_fdf *fdf)
 	fdf->fd = -1;
 	fdf->line = NULL;
 	fdf->mlx = NULL;
+	fdf->close_window = 0;
 }
 
 /*
@@ -104,15 +105,15 @@ Initialiazes graphic-related members of the 'fdf' structure:
 //	++ PROGRAM ++
 //	+++++++++++++
 
-void print_int_2d_array(int **array, int rows, int cols)
-{
-	for (int i = 0; i < rows; i++) {
-		for (int j = 0; j < cols; j++) {
-			ft_printf("%d ", array[i][j]);
-		}
-		ft_printf("\n");
-	}
-}
+// void print_int_2d_array(int **array, int rows, int cols)
+// {
+// 	for (int i = 0; i < rows; i++) {
+// 		for (int j = 0; j < cols; j++) {
+// 			ft_printf("%d ", array[i][j]);
+// 		}
+// 		ft_printf("\n");
+// 	}
+// }
 
 int	main(int argc, char **argv)
 {
@@ -120,24 +121,24 @@ int	main(int argc, char **argv)
 
 	check_file(argc, argv);
 	init_fdf(&fdf, argv[1]);
-
-	render_image(&fdf);
-
 ///
 	ft_printf("map_x: %d\n", fdf.map_x);
 	ft_printf("map_y: %d\n", fdf.map_y);
 
-	ft_printf("\nZ values:\n");
-	print_int_2d_array(fdf.map_z, fdf.map_y, fdf.map_x);
+	// ft_printf("\nZ values:\n");
+	// print_int_2d_array(fdf.map_z, fdf.map_y, fdf.map_x);
 
-	ft_printf("\nColor values:\n");
-	print_int_2d_array(fdf.map_color, fdf.map_y, fdf.map_x);
+	// ft_printf("\nColor values:\n");
+	// print_int_2d_array(fdf.map_color, fdf.map_y, fdf.map_x);
 
 	if (fdf.color_provided)
 		ft_printf("\nColor provided!\n");
 	else
 		ft_printf("\nColor NOT provided!\n");
-///
+
+
+
+	render_image(&fdf);
 
 	free_fdf(&fdf);
 	exit(EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/17 16:40:04 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/17 18:38:20 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 //	++++++++++++
 
 # define WINDOW_W		600
-# define WINDOW_H		300
+# define WINDOW_H		600
 # define WINDOW_TITLE	"fdf by Alex Schenk @42 Berlin"
 
 //	++++++++++++++++
@@ -64,11 +64,9 @@ typedef struct s_img
 }	t_img;
 
 //	- int color_provided:	Flag if .fdf file provides colors (no: 0, yes: 1).
+// close_window needed to set a flag
 typedef struct s_fdf
 {
-	void	*mlx;
-	void	*win;
-	t_img	img;
 	int		fd;
 	char	*line;
 	int		map_x;
@@ -76,6 +74,10 @@ typedef struct s_fdf
 	int		**map_z;
 	int		**map_color;
 	int		color_provided;
+	void	*mlx;
+	void	*win;
+	t_img	img;
+	int		close_window;
 }	t_fdf;
 
 typedef struct s_rect

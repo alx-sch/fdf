@@ -6,7 +6,7 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/17 16:34:39 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/17 18:27:38 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ SRCS :=			$(SRCS_DIR)/main.c \
 				$(SRCS_DIR)/map_color.c \
 				$(SRCS_DIR)/free.c \
 				$(SRCS_DIR)/mlx_render.c \
-				$(SRCS_DIR)/mlx_hooks.c
+				$(SRCS_DIR)/mlx_callback.c
 
 OBJS_DIR :=		obj
 OBJS :=			$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
