@@ -6,13 +6,12 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 14:55:38 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/17 00:01:01 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/17 16:58:06 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef COLORS_H
 # define COLORS_H
-
 
 # define BG_COLOR		GRAY // Set the background color
 # define WIRE_COLOR		SKY_BLUE // Set the default color for the wireframe

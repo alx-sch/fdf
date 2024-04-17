@@ -6,7 +6,7 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/17 16:24:52 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/17 16:34:39 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,7 @@ LIBMLX :=		$(MLX_DIR)/libmlx.a
 
 LIB_FLAGS :=	$(LIBFT_FLAGS) $(MLX_FLAGS)
 CC :=			cc
-CFLAGS :=		-Wall -Wextra -Werror -Wpedantic  -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
+CFLAGS :=		-Wall -Wextra -Werror -Wpedantic -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
 
 # For compilation progress bar
 TOTAL_SRCS :=	$(words $(SRCS))
