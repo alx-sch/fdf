@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/17 12:58:11 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/17 16:23:00 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 # include "colors.h" // Color Macros
 # include "errors.h" // Error Message Macros
 
-# include "../lib/libft/libft.h" // libft
-# include "../lib/mlx/mlx.h" // MiniLibX
+# include "libft.h" // libft
+# include "mlx.h" // MiniLibX
 # include <X11/keysym.h> // Macros for key symbols, e.g. XK_Escape
 # include <X11/X.h> //Macros releated to the event names/masks, e.g. KeyPress
 

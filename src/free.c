@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 23:00:59 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/17 12:57:06 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/17 15:11:25 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,22 @@ void	free_str_arr(char **array);
 //	+++++++++++++++
 //	++ FUNCTIONS ++
 //	+++++++++++++++
+
+// static void	free_int_arr(int **arr, t_fdf *fdf)
+// {
+// 	int	y;
+
+// 	y = 0;
+// 	if (!arr)
+// 		return ;
+// 	while (y < fdf->map_y)
+// 	{
+// 		free(arr[y]);
+// 		y++;
+// 	}
+// 	free(arr);
+// 	arr = NULL;
+// }
 
 void	free_fdf(t_fdf *fdf)
 {
@@ -72,7 +88,9 @@ void	free_str_arr(char **array)
 	while (array[i])
 	{
 		free(array[i]);
+		array[i] = NULL;
 		i++;
 	}
 	free(array);
+	array = NULL;
 }

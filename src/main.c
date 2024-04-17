@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/16 23:54:04 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/17 16:30:19 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	check_file(int argc, char **argv)
 Initializing map members in the fdf structure to NULL / zero.
 This helps to avoid accessing variables that are not initialized.
 */
-static void	null_map(t_fdf *fdf)
+static void	null_fdf(t_fdf *fdf)
 {
 	fdf->map_x = 0;
 	fdf->map_y = 0;
@@ -60,6 +60,7 @@ static void	null_map(t_fdf *fdf)
 	fdf->color_provided = 0;
 	fdf->fd = -1;
 	fdf->line = NULL;
+	fdf->mlx = NULL;
 }
 
 /*
@@ -70,10 +71,11 @@ Initialiazes map members of the'fdf' structure:
 */
 static void	init_map(t_fdf *fdf, char *file)
 {
-	null_map(fdf);
+	null_fdf(fdf);
 	get_map_x_and_y(fdf, file);
 	get_map_z(fdf, file);
 	get_map_color(fdf, file);
+
 }
 
 /*
@@ -120,19 +122,19 @@ int	main(int argc, char **argv)
 	render_image(&fdf);
 
 ///
-	ft_printf("map_x: %d\n", fdf.map_x);
-	ft_printf("map_y: %d\n", fdf.map_y);
+	// ft_printf("map_x: %d\n", fdf.map_x);
+	// ft_printf("map_y: %d\n", fdf.map_y);
 
-	ft_printf("\nZ values:\n");
-	print_int_2d_array(fdf.map_z, fdf.map_y, fdf.map_x);
+	// ft_printf("\nZ values:\n");
+	// print_int_2d_array(fdf.map_z, fdf.map_y, fdf.map_x);
 
-	ft_printf("\nColor values:\n");
-	print_int_2d_array(fdf.map_color, fdf.map_y, fdf.map_x);
+	// ft_printf("\nColor values:\n");
+	// print_int_2d_array(fdf.map_color, fdf.map_y, fdf.map_x);
 
-	if (fdf.color_provided)
-		ft_printf("\nColor provided!\n");
-	else
-		ft_printf("\nColor NOT provided!\n");
+	// if (fdf.color_provided)
+	// 	ft_printf("\nColor provided!\n");
+	// else
+	// 	ft_printf("\nColor NOT provided!\n");
 ///
 
 	free_fdf(&fdf);

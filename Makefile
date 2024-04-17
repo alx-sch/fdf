@@ -6,7 +6,7 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/17 13:21:37 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/17 16:24:52 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ SRCS :=			$(SRCS_DIR)/main.c \
 OBJS_DIR :=		obj
 OBJS :=			$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
-HDRS_DIR := 	include
+HDRS_DIR :=		include
 HDRS := 		$(HDRS_DIR)/fdf.h \
 				$(HDRS_DIR)/colors.h \
 				$(HDRS_DIR)/errors.h
@@ -37,13 +37,12 @@ LIBFT :=		$(LIBFT_DIR)/libft.a
 
 # MiniLibX
 MLX_DIR :=		lib/mlx
-MLX_FLAGS :=	-L$(MLX_DIR) -lmlx -lXext -lX11
+MLX_FLAGS :=	-L$(MLX_DIR) -lmlx_Linux -lXext -lX11 -lm
 LIBMLX :=		$(MLX_DIR)/libmlx.a
 
-LIB_FLAGS :=	$(LIBFT_FLAGS) $(MLX_FLAGS) -lm # -lm: math library
-
+LIB_FLAGS :=	$(LIBFT_FLAGS) $(MLX_FLAGS)
 CC :=			cc
-CFLAGS :=		-Wall -Wextra -Werror -I$(HDRS_DIR)
+CFLAGS :=		-Wall -Wextra -Werror -Wpedantic  -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
 
 # For compilation progress bar
 TOTAL_SRCS :=	$(words $(SRCS))
