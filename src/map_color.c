@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:12:59 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/16 20:48:46 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/17 12:57:54 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	get_color_code(char *color_str, char **token_arr, t_fdf *fdf)
 		if (color_int >= 0 && color_int <= 16777215)
 			return (color_int);
 	}
-	free_arr(token_arr);
+	free_str_arr(token_arr);
 	free_fdf(fdf);
 	ft_putstr_fd(ERR_COLOR, STDERR_FILENO);
 	exit(EXIT_FAILURE);
@@ -73,7 +73,7 @@ static void	parse_map_color(t_fdf *fdf, int y)
 			fdf->map_color[y][x] = WIRE_COLOR;
 		x++;
 	}
-	free_arr(token_arr);
+	free_str_arr(token_arr);
 }
 
 /*

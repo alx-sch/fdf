@@ -6,7 +6,7 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/17 01:16:52 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/17 13:21:37 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ RED :=			\033[31;2m
 GREEN :=		\033[32m
 YELLOW :=		\033[33m
 
-LOGO := "$(BOLD)${RED}  _     _     _  \n / \   / \   / \ \n( ${GREEN}F${RED} ) ( ${GREEN}D${RED} ) ( ${GREEN}F${RED} )\n \_/   \_/   \_/    \n\n$(RESET)$(BOLD)a project by Alex Schenk @42 Berlin, April 2024\n$(RESET)"
+LOGO := "$(BOLD)${RED}  _     _     _  \n / \   / \   / \ \n( ${GREEN}F${RED} ) ( ${GREEN}D${RED} ) ( ${GREEN}F${RED} )\n \_/   \_/   \_/    \n\n$(RESET)$(BOLD)by Alex Schenk @42 Berlin, April 2024\n$(RESET)"
 
 # Building dependencies MiniLibX, libft, and the program when 'make' is called.
 all:	$(LIBMLX) $(LIBFT) $(NAME)
@@ -141,7 +141,7 @@ $(NAME):	$(OBJS) $(LIBFT) $(LIBMLX)
 # -c:		Generates o. files without linking.
 # -o $@:	Output file name;  '$@' is replaced with target name (the o. file).
 # -$<:		Represents the first prerequisite (the c. file).
-$(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c $(HDRS)
+$(OBJS_DIR)/%.o:	$(SRCS_DIR)/%.c $(HDRS)
 	@mkdir -p $(@D)
 	@$(eval SRC_NUM := $(shell expr $(SRC_NUM) + 1))
 	@$(eval PERCENT := $(shell printf "%.0f" $(shell echo "scale=4; $(SRC_NUM) / $(TOTAL_SRCS) * 100" | bc)))
@@ -171,4 +171,4 @@ fclean:	clean
 # and then rebuild the program.
 re:	fclean all
 
-.PHONY: all clean fclean re
+.PHONY:	all clean fclean re

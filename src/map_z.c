@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 20:39:48 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/16 19:42:45 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/17 12:57:16 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static	void	parse_map_z(t_fdf *fdf, int y)
 		fdf->map_z[y][x] = ft_atoi(token_arr[x]);
 		x++;
 	}
-	free_arr(token_arr);
+	free_str_arr(token_arr);
 }
 
 /*

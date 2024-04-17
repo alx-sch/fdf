@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 23:00:59 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/16 23:59:41 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/17 12:57:06 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 // FILE
 
 void	free_fdf(t_fdf *fdf);
-void	free_arr(char **array);
+void	free_str_arr(char **array);
 
 //	+++++++++++++++
 //	++ FUNCTIONS ++
@@ -62,7 +62,7 @@ void	free_fdf(t_fdf *fdf)
 Used in parse_map_z() and parse_map_color().
 Frees the memory allocated for an array of strings.
 */
-void	free_arr(char **array)
+void	free_str_arr(char **array)
 {
 	int	i;
 

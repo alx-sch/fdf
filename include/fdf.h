@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/17 01:20:04 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/17 12:58:11 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ int		close_window(t_fdf *fdf);
 // free.c
 
 void	free_fdf(t_fdf *fdf);
-void	free_arr(char **array);
+void	free_str_arr(char **array);
 
 // utils.c
 
