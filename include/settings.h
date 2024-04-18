@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   colors.h                                           :+:      :+:    :+:   */
+/*   settings.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 14:55:38 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/17 16:58:06 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/18 18:07:47 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef COLORS_H
-# define COLORS_H
+#ifndef SETTINGS_H
+# define SETTINGS_H
 
-# define BG_COLOR		GRAY // Set the background color
+# define WINDOW_W		800
+# define WINDOW_H		800
+# define WINDOW_TITLE	"fdf by Alex Schenk @42 Berlin"
+
+# define BG_COLOR		BLACK // Set the background color
 # define WIRE_COLOR		SKY_BLUE // Set the default color for the wireframe
 
 // List of Color Macros (as suggested by ChatGPT)

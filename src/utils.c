@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:53:16 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/17 17:04:54 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/18 16:35:25 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,3 +43,4 @@ void	perror_and_exit(char *msg, t_fdf *fdf)
 	free_fdf(fdf);
 	exit(EXIT_FAILURE);
 }
+

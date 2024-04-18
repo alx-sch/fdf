@@ -6,7 +6,7 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/17 18:27:38 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/18 15:11:36 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ OBJS :=			$(SRCS:$(SRCS_DIR)/%.c=$(OBJS_DIR)/%.o)
 
 HDRS_DIR :=		include
 HDRS := 		$(HDRS_DIR)/fdf.h \
-				$(HDRS_DIR)/colors.h \
+				$(HDRS_DIR)/settings.h \
 				$(HDRS_DIR)/errors.h
 
 # LIBFT
@@ -42,7 +42,7 @@ LIBMLX :=		$(MLX_DIR)/libmlx.a
 
 LIB_FLAGS :=	$(LIBFT_FLAGS) $(MLX_FLAGS)
 CC :=			cc
-CFLAGS :=		-Wall -Wextra -Werror -Wpedantic -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
+CFLAGS :=		-Wall -Wextra -Werror -Wpedantic -g -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
 
 # For compilation progress bar
 TOTAL_SRCS :=	$(words $(SRCS))

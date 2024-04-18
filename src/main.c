@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/17 18:33:43 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/18 17:22:44 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,8 +57,6 @@ static void	null_fdf(t_fdf *fdf)
 {
 	fdf->map_x = 0;
 	fdf->map_y = 0;
-	fdf->map_z = NULL;
-	fdf->map_color = NULL;
 	fdf->color_provided = 0;
 	fdf->fd = -1;
 	fdf->line = NULL;
@@ -88,7 +86,7 @@ static void	init_fdf(t_fdf *fdf, char *file)
 	fdf->win = mlx_new_window(fdf->mlx, WINDOW_W, WINDOW_H, WINDOW_TITLE);
 	if (!fdf->win)
 		msg_and_exit(ERR_MLX, fdf);
-	fdf->img.img = mlx_new_image(fdf->mlx, WINDOW_W, WINDOW_H);
+	fdf->img.img = mlx_new_image(fdf->mlx, WINDOW_W*2, WINDOW_H*2);
 	fdf->img.data = mlx_get_data_addr(fdf->img.img, &fdf->img.bpp,
 			&fdf->img.size_len, &fdf->img.endian);
 }
@@ -105,15 +103,15 @@ Initialiazes graphic-related members of the 'fdf' structure:
 //	++ PROGRAM ++
 //	+++++++++++++
 
-// void print_int_2d_array(int **array, int rows, int cols)
-// {
-// 	for (int i = 0; i < rows; i++) {
-// 		for (int j = 0; j < cols; j++) {
-// 			ft_printf("%d ", array[i][j]);
-// 		}
-// 		ft_printf("\n");
-// 	}
-// }
+void print_int_2d_array(int **array, int rows, int cols)
+{
+	for (int i = 0; i < rows; i++) {
+		for (int j = 0; j < cols; j++) {
+			ft_printf("%d ", array[i][j]);
+		}
+		ft_printf("\n");
+	}
+}
 
 int	main(int argc, char **argv)
 {
@@ -125,11 +123,11 @@ int	main(int argc, char **argv)
 	ft_printf("map_x: %d\n", fdf.map_x);
 	ft_printf("map_y: %d\n", fdf.map_y);
 
-	// ft_printf("\nZ values:\n");
-	// print_int_2d_array(fdf.map_z, fdf.map_y, fdf.map_x);
+	ft_printf("\nZ values:\n");
+	print_int_2d_array(fdf.map_z, fdf.map_y, fdf.map_x);
 
-	// ft_printf("\nColor values:\n");
-	// print_int_2d_array(fdf.map_color, fdf.map_y, fdf.map_x);
+	ft_printf("\nColor values:\n");
+	print_int_2d_array(fdf.map_color, fdf.map_y, fdf.map_x);
 
 	if (fdf.color_provided)
 		ft_printf("\nColor provided!\n");

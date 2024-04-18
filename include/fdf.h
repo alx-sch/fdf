@@ -6,14 +6,14 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/17 18:38:20 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/18 16:57:57 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FDF_H
 # define FDF_H
 
-# include "colors.h" // Color Macros
+# include "settings.h" // Color Macros
 # include "errors.h" // Error Message Macros
 
 # include "libft.h" // libft
@@ -25,14 +25,11 @@
 # include <fcntl.h> // open, close, read, write
 # include <stdio.h> // perror
 # include <string.h> // strerror
+# include <math.h> // sin(), cos()
 
 //	++++++++++++
 //	++ MACROS ++
 //	++++++++++++
-
-# define WINDOW_W		600
-# define WINDOW_H		600
-# define WINDOW_TITLE	"fdf by Alex Schenk @42 Berlin"
 
 //	++++++++++++++++
 //	++ STRUCTURES ++
@@ -63,6 +60,20 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
+typedef struct s_br_utils
+{
+	int	x0;
+	int	y0;
+	int	x1;
+	int	y1;
+	int	delta_x;
+	int	delta_y;
+	int	step_x;
+	int	step_y;
+	int	err;
+	int	e2;
+}	t_br_utils;
+
 //	- int color_provided:	Flag if .fdf file provides colors (no: 0, yes: 1).
 // close_window needed to set a flag
 typedef struct s_fdf
@@ -80,14 +91,8 @@ typedef struct s_fdf
 	int		close_window;
 }	t_fdf;
 
-typedef struct s_rect
-{
-	int	x;
-	int	y;
-	int	width;
-	int	height;
-	int	color;
-}	t_rect;
+
+
 
 //	+++++++++++++
 //	++ PROGRAM ++
