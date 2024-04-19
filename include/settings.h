@@ -6,19 +6,26 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 14:55:38 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/18 18:07:47 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/19 18:20:15 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SETTINGS_H
 # define SETTINGS_H
 
-# define WINDOW_W		800
-# define WINDOW_H		800
+# define WINDOW_W		1000
+# define WINDOW_H		1000
 # define WINDOW_TITLE	"fdf by Alex Schenk @42 Berlin"
 
-# define BG_COLOR		BLACK // Set the background color
-# define WIRE_COLOR		SKY_BLUE // Set the default color for the wireframe
+// Set the background color
+# define BG_COLOR		BLACK
+
+// Set the default color for the wireframe
+# define WIRE_COLOR		SKY_BLUE
+
+// isometric: 45° angels are shown as 30° to horizontal line in projection
+# define ANGLE			30
+
 
 // List of Color Macros (as suggested by ChatGPT)
 

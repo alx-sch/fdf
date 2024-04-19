@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/18 16:57:57 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/19 14:39:34 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <fcntl.h> // open, close, read, write
 # include <stdio.h> // perror
 # include <string.h> // strerror
+# include <float.h> // FLT_MAX macro
 # include <math.h> // sin(), cos()
 
 //	++++++++++++

@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/18 17:22:44 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/19 18:17:48 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,11 +123,11 @@ int	main(int argc, char **argv)
 	ft_printf("map_x: %d\n", fdf.map_x);
 	ft_printf("map_y: %d\n", fdf.map_y);
 
-	ft_printf("\nZ values:\n");
-	print_int_2d_array(fdf.map_z, fdf.map_y, fdf.map_x);
+	// ft_printf("\nZ values:\n");
+	// print_int_2d_array(fdf.map_z, fdf.map_y, fdf.map_x);
 
-	ft_printf("\nColor values:\n");
-	print_int_2d_array(fdf.map_color, fdf.map_y, fdf.map_x);
+	// ft_printf("\nColor values:\n");
+	// print_int_2d_array(fdf.map_color, fdf.map_y, fdf.map_x);
 
 	if (fdf.color_provided)
 		ft_printf("\nColor provided!\n");
