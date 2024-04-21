@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:37:19 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/19 18:22:29 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/21 23:55:55 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,36 @@ static void	render_background(t_fdf *fdf)
 		i++;
 	}
 }
+
+// scaling and offset -> whole map fits into window
+// static void	get_extrema(t_fdf *fdf)
+// {
+// 	int	x;
+// 	int	y;
+// 	int	x_proj;
+// 	int	y_proj;
+
+// 	x = -1;
+// 	y = -1;
+// 	while (++y < fdf->y_max)
+// 	{
+// 		while (x++ < fdf ->x_max)
+// 		{
+// 			x_proj = (x - y) * cos(ANGLE * M_PI / 180);
+// 			y_proj = (x + y) * sin(ANGLE * M_PI / 180) - fdf->z[y][x] * Z_SCALE;
+// 			if (x_proj > fdf->x_proj_max)
+// 				fdf->x_proj_max = x_proj;
+// 			if (x_proj < fdf->x_proj_min)
+// 				fdf->x_proj_min = x_proj;
+// 			if (y_proj > fdf->y_proj_max)
+// 				fdf->y_proj_max = y_proj;
+// 			if (y_proj < fdf->y_proj_min)
+// 				fdf->y_proj_min = y_proj;
+// 		}
+// 		x = 0;
+// 	}
+// }
+
 // Bresenham's line algorithm
 // void draw_line(int x0, int y0, int x1, int y1, float scale, t_fdf *fdf)
 // {
@@ -68,68 +98,75 @@ static void	render_map(t_fdf *fdf)
 {
 	int	x;
 	int	y;
-	float	x_trans = 0;
-	float	y_trans = 0;
-	float 	x_trans_max = 0;
-	float 	y_trans_max = 0;
-	float 	x_trans_min = FLT_MAX;
-	float 	y_trans_min = FLT_MAX;
-	float	z_scale = 0.1;
+	float	x_proj = 0;
+	float	y_proj = 0;
+
+	// float	fdf->x_proj_max;
+	// float	fdf->y_proj_max;
+	// float	fdf->x_proj_min;
+	// float	fdf->y_proj_min;
+
+	fdf->x_proj_max = 0;
+	fdf->y_proj_max = 0;
+	fdf->x_proj_min = FLT_MAX;
+	fdf->y_proj_min = FLT_MAX;
 
 	x = 0;
 	y = 0;
-	while (y < fdf->map_y)
+	while (y < fdf->y_max)
 	{
-		while (x < fdf ->map_x)
+		while (x < fdf ->x_max)
 		{
-			x_trans = (x - y) * cos(ANGLE * M_PI / 180);
-			y_trans = (x + y) * sin(ANGLE * M_PI / 180) - fdf->map_z[y][x] * z_scale;
-			if (x_trans > x_trans_max)
-				x_trans_max = x_trans;
-			if (x_trans < x_trans_min)
-				x_trans_min = x_trans;
-			if (y_trans > y_trans_max)
-				y_trans_max = y_trans;
-			if (y_trans < y_trans_min)
-				y_trans_min = y_trans;
+			x_proj = (x - y) * cos(ANGLE * M_PI / 180);
+			y_proj = (x + y) * sin(ANGLE * M_PI / 180) - fdf->z[y][x] * Z_SCALE;
+			if (x_proj > fdf->x_proj_max)
+				fdf->x_proj_max = x_proj;
+			if (x_proj < fdf->x_proj_min)
+				fdf->x_proj_min = x_proj;
+			if (y_proj > fdf->y_proj_max)
+				fdf->y_proj_max = y_proj;
+			if (y_proj < fdf->y_proj_min)
+				fdf->y_proj_min = y_proj;
 			x++;
 		}
 		x = 0;
 		y++;
 	}
-	// printf("x_trans_max: %.2f\n", x_trans_max);
-	// printf("x_trans_min: %.2f\n", x_trans_min);
-	// printf("y_trans_max: %.2f\n", y_trans_max);
-	// printf("y_trans_min: %.2f\n", y_trans_min);
+	printf("fdf->x_proj_max: %.2f\n", fdf->x_proj_max);
+	printf("fdf->x_proj_min: %.2f\n", fdf->x_proj_min);
+	printf("fdf->y_proj_max: %.2f\n", fdf->y_proj_max);
+	printf("fdf->y_proj_min: %.2f\n", fdf->y_proj_min);
 
-// 	float x_trans_range = x_trans_max - x_trans_min;
-// 	float y_trans_range = y_trans_max - y_trans_min;
+	float x_proj_range = fdf->x_proj_max - fdf->x_proj_min;
+	float y_proj_range = fdf->y_proj_max - fdf->y_proj_min;
 
-// // Calculate the width and height of the range
-// 	float x_width = x_trans_range;
-// 	float y_height = y_trans_range;
+	printf("fdf->x_proj_max: %.2f\n", x_proj_range);
+	printf("fdf->y_proj_min: %.2f\n", y_proj_range);
 
-// 	// Calculate the scale factor to fit the range within the 800x800 window
-// 	float x_scale = 800.0 / (x_width * 1.1); // Leaving 10% space on each side
-// 	float y_scale = 800.0 / (y_height * 1.1);
+	// Calculate the scale factor to fit the range within the 800x800 window
+	float x_scale = (WINDOW_W / (fdf->x_proj_max - fdf->x_proj_min)) * SCREEN_UTIL; // Leaving 10% space on each side
+	float y_scale = (WINDOW_H / (fdf->y_proj_max - fdf->y_proj_min)) * SCREEN_UTIL;
 
-// 	float scale = (x_scale > y_scale) ? x_scale : y_scale;
+	printf("x scale: %.5f\n", x_scale);
+	printf("y scale: %.5f\n", y_scale);
 
-// 	printf("scale: %.5f\n", scale);
+	float scale = (x_scale < y_scale) ? x_scale : y_scale;
+
+	printf("scale: %.5f\n", scale);
 
 	x = 0;
 	y = 0;
-	x_trans = 0;
-	y_trans = 0;
-	while (y < fdf->map_y)
+	x_proj = 0;
+	y_proj = 0;
+	while (y < fdf->y_max)
 	{
-		while (x < fdf ->map_x)
+		while (x < fdf ->x_max)
 		{
-			x_trans = (((x - y) * cos(ANGLE * M_PI / 180)) - x_trans_min);
-			y_trans = (((x + y) * sin(ANGLE * M_PI / 180) - fdf->map_z[y][x] * z_scale) - y_trans_min);
-			img_pix_put(&fdf->img, x_trans, y_trans, fdf->map_color[y][x]);
-			// printf("x_trans %d: %.2f\n", x, x_trans);
-			// printf("y_trans %d: %.2f\n", y, y_trans);
+			x_proj = (((x - y) * cos(ANGLE * M_PI / 180)) - fdf->x_proj_min) * scale + (WINDOW_W - ((fdf->x_proj_max - fdf->x_proj_min) * scale)) / 2;
+			y_proj = (((x + y) * sin(ANGLE * M_PI / 180) - fdf->z[y][x] * Z_SCALE) - fdf->y_proj_min) * scale + (WINDOW_H - ((fdf->y_proj_max - fdf->y_proj_min) * scale)) / 2;
+
+
+			img_pix_put(&fdf->img, x_proj, y_proj, fdf->color[y][x]);
 			x++;
 		}
 		x = 0;
@@ -137,28 +174,11 @@ static void	render_map(t_fdf *fdf)
 	}
 }
 
-static int	handle_events(t_fdf *fdf)
-{
-	if (fdf->close_window)
-	{
-		mlx_destroy_window(fdf->mlx, fdf->win);
-		fdf->win = NULL;
-		mlx_loop_end(fdf->mlx);
-	}
-	return (0);
-}
 
-
-// DestryNotify: 'x' in window is clicked
 void	render_image(t_fdf *fdf)
 {
 	render_background(fdf);
 	render_map(fdf);
 
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img.img, 0, 0);
-
-	mlx_hook(fdf->win, DestroyNotify, 0, &close_window, fdf);
-	mlx_hook(fdf->win, KeyPress, KeyPressMask, &handle_keypress, fdf);
-	mlx_loop_hook(fdf->mlx, &handle_events, fdf);
-	mlx_loop(fdf->mlx);
 }

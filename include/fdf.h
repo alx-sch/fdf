@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/19 14:39:34 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/21 23:50:07 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,38 +61,28 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
-typedef struct s_br_utils
-{
-	int	x0;
-	int	y0;
-	int	x1;
-	int	y1;
-	int	delta_x;
-	int	delta_y;
-	int	step_x;
-	int	step_y;
-	int	err;
-	int	e2;
-}	t_br_utils;
-
 //	- int color_provided:	Flag if .fdf file provides colors (no: 0, yes: 1).
 // close_window needed to set a flag
 typedef struct s_fdf
 {
 	int		fd;
 	char	*line;
-	int		map_x;
-	int		map_y;
-	int		**map_z;
-	int		**map_color;
+	int		x_max;
+	int		y_max;
+	int		**z;
+	int		**color;
 	int		color_provided;
 	void	*mlx;
 	void	*win;
 	t_img	img;
-	int		close_window;
+	float	x_proj_max;
+	float	y_proj_max;
+	float	x_proj_min;
+	float	y_proj_min;
+	float	scale;
+	float	x_offset;
+	float	y_offset;
 }	t_fdf;
-
-
 
 
 //	+++++++++++++
@@ -109,30 +99,29 @@ int		main(int argc, char **argv);
 
 // map_x_y.c
 
-void	get_map_x_and_y(t_fdf *fdf, char *file);
+void	get_x_and_y(t_fdf *fdf, char *file);
 
 // map_z.c
 
-void	get_map_z(t_fdf *fdf, char *file);
+void	get_z(t_fdf *fdf, char *file);
 
 // map_color.c
 
-void	get_map_color(t_fdf *fdf, char *file);
+void	get_color(t_fdf *fdf, char *file);
 
 // mlx_render.c
 
 void	render_image(t_fdf *fdf);
 
-// mlx_hooks.c
+// mlx_events.c
 
 int		handle_keypress(int keycode, t_fdf *fdf);
-int		handle_event(t_fdf *fdf);
-int		close_window(t_fdf *fdf);
+int		handle_x(t_fdf	*fdf);
 
 // free.c
 
-void	free_fdf(t_fdf *fdf);
-void	free_str_arr(char ***array);
+void	free_fdf(t_fdf **fdf_ptr);
+void	free_str_arr(char ***array_ptr);
 
 // utils.c
 

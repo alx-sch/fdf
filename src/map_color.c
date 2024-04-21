@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   map_color.c                                        :+:      :+:    :+:   */
+/*   color.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 17:12:59 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/17 16:40:45 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/21 23:29:04 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 This file contains a function to parse the color values as integers to
-'fdf->map_color'. If no color codes are provided for an entry, the default
+'fdf->color'. If no color codes are provided for an entry, the default
 WIRE_COLOR is used.
 */
 
 #include "fdf.h"
 
-void	get_map_color(t_fdf *fdf, char *file);
+void	get_color(t_fdf *fdf, char *file);
 
 /*
-Used in parse_map_color().
+Used in parse_color().
 Parses a hexadecimal color code string and validates its format and range
 (FFFFFF == 16777215);
 Returns:
@@ -41,17 +41,17 @@ static int	get_color_code(char *color_str, char **token_arr, t_fdf *fdf)
 			return (color_int);
 	}
 	free_str_arr(&token_arr);
-	free_fdf(fdf);
+	free_fdf(&fdf);
 	ft_putstr_fd(ERR_COLOR, STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }
 
 /*
-Used in get_map_color().
+Used in get_color().
 If your color information is consistently provided in a format like 0xRRGGBB,
 you can directly parse it as an integer without extracting it as a string.
 */
-static void	parse_map_color(t_fdf *fdf, int y)
+static void	parse_color(t_fdf *fdf, int y)
 {
 	int		x;
 	char	*color_str;
@@ -61,16 +61,16 @@ static void	parse_map_color(t_fdf *fdf, int y)
 	token_arr = ft_split(fdf->line, ' ');
 	if (!token_arr)
 		perror_and_exit(ERR_SPLIT, fdf);
-	while (x < fdf->map_x)
+	while (x < fdf->x_max)
 	{
 		color_str = ft_strchr(token_arr[x], ',');
 		if (color_str)
 		{
 			fdf->color_provided = 1;
-			fdf->map_color[y][x] = get_color_code(color_str, token_arr, fdf);
+			fdf->color[y][x] = get_color_code(color_str, token_arr, fdf);
 		}
 		else
-			fdf->map_color[y][x] = WIRE_COLOR;
+			fdf->color[y][x] = WIRE_COLOR;
 		x++;
 	}
 	free_str_arr(&token_arr);
@@ -80,15 +80,15 @@ static void	parse_map_color(t_fdf *fdf, int y)
 Parses the color values of the map into the fdf structure.
 If no color code is provided for an entry, the default 'WIRE_COLOR' is used.
 The function allocates memory, reads and checks the values color codes,
-and stores them in the int matrix 'fdf->map_color'.
+and stores them in the int matrix 'fdf->color'.
 */
-void	get_map_color(t_fdf *fdf, char *file)
+void	get_color(t_fdf *fdf, char *file)
 {
 	int		y;
 
 	y = 0;
-	fdf->map_color = (int **)ft_calloc(fdf->map_y, sizeof(int *));
-	if (!fdf->map_color)
+	fdf->color = (int **)ft_calloc(fdf->y_max, sizeof(int *));
+	if (!fdf->color)
 		perror_and_exit(ERR_MALLOC, fdf);
 	fdf->fd = open(file, O_RDONLY);
 	if (-1 == fdf->fd)
@@ -96,10 +96,10 @@ void	get_map_color(t_fdf *fdf, char *file)
 	fdf->line = get_next_line(fdf->fd);
 	while (fdf->line != NULL)
 	{
-		fdf->map_color[y] = (int *)ft_calloc(fdf->map_x, sizeof(int));
-		if (!fdf->map_color[y])
+		fdf->color[y] = (int *)ft_calloc(fdf->x_max, sizeof(int));
+		if (!fdf->color[y])
 			perror_and_exit(ERR_MALLOC, fdf);
-		parse_map_color(fdf, y);
+		parse_color(fdf, y);
 		free(fdf->line);
 		fdf->line = get_next_line(fdf->fd);
 		y++;

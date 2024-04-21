@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 16:27:35 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/18 17:05:59 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/21 23:53:35 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,3 +65,56 @@ the Bresenham algorithm:
 // 		}
 // 	}
 // }
+
+
+// Bresenham's line algorithm
+// void draw_line(int x0, int y0, int x1, int y1, float scale, t_fdf *fdf)
+// {
+//     int dx = abs(x1 - x0);
+//     int dy = abs(y1 - y0);
+//     int sx = x0 < x1 ? 1 : -1;
+//     int sy = y0 < y1 ? 1 : -1;
+//     int err = dx - dy;
+//     int e2;
+
+//     while (x0 != x1 || y0 != y1) {
+//         img_pix_put(&fdf->img, x0 * scale, y0 * scale, fdf->map_color[y0][x0]);
+//         e2 = 2 * err;
+//         if (e2 > -dy) {
+//             err -= dy;
+//             x0 += sx;
+//         }
+//         if (e2 < dx) {
+//             err += dx;
+//             y0 += sy;
+//         }
+//     }
+// }
+
+static void	get_extrema(t_fdf *fdf)
+{
+	int	x;
+	int	y;
+	int	x_proj;
+	int	y_proj;
+
+	x = -1;
+	y = -1;
+	while (++y < fdf->y_max)
+	{
+		while (++x < fdf ->x_max)
+		{
+			x_proj = (x - y) * cos(ANGLE * M_PI / 180);
+			y_proj = (x + y) * sin(ANGLE * M_PI / 180) - fdf->z[y][x] * Z_SCALE;
+			if (x_proj > fdf->x_proj_max)
+				fdf->x_proj_max = x_proj;
+			if (x_proj < fdf->x_proj_min)
+				fdf->x_proj_min = x_proj;
+			if (y_proj > fdf->y_proj_max)
+				fdf->y_proj_max = y_proj;
+			if (y_proj < fdf->y_proj_min)
+				fdf->y_proj_min = y_proj;
+		}
+		x = 0;
+	}
+}
