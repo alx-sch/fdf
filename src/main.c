@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 20:34:38 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 21:00:46 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ static void	null_fdf(t_fdf *fdf)
 	fdf->mlx = NULL;
 }
 
-
 /*
 Initial assignment of members of the 'fdf' structure:
 - Map width (fdf->x_max; int)
@@ -90,6 +89,7 @@ static void	parse_map_and_init_mlx(t_fdf *fdf, char *file)
 	get_x_and_y(fdf, file);
 	get_z(fdf, file);
 	get_color(fdf, file);
+	//allocate_memory_for_projection(fdf);
 	fdf->mlx = mlx_init();
 	if (!fdf->mlx)
 		msg_and_exit(ERR_MLX, fdf);
@@ -111,9 +111,7 @@ int	main(int argc, char **argv)
 
 	check_file(argc, argv);
 	parse_map_and_init_mlx(&fdf, argv[1]);
-
 	render_image(&fdf);
-
 	mlx_key_hook(fdf.win, &handle_keypress, &fdf);
 	mlx_hook(fdf.win, DestroyNotify, 0, &handle_x, &fdf);
 	mlx_loop(fdf.mlx);

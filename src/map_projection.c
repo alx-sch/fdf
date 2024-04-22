@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 18:03:53 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 20:35:14 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 21:10:10 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,35 +18,37 @@ offsets, ensuring that the projection fits into the window and is centered.
 #include "fdf.h"
 
 // IN FILE
+void	calculate_projection_paramters(t_fdf *fdf);
 
 /*
+Used in calculate_projection_paramters().
 Allocates memory for two 2D arrays ('fdf->x_proj' and 'fdf->y_proj') to store
 projected coordinates corresponding to the map file.
-These arrays hold the projected x and y values on the screen for each
+These arrays hold the projected x and y values on the image for each
 map coordinate (x, y, z).
 */
-// static void	allocate_memory(t_fdf *fdf)
-// {
-// 	int	y;
+static void	allocate_memory(t_fdf *fdf)
+{
+	int	y;
 
-// 	y = 0;
-// 	fdf->x_proj = (float **)ft_calloc(fdf->y_max, sizeof(float));
-// 	if (!fdf->x_proj)
-// 		perror_and_exit(ERR_MALLOC, fdf);
-// 	fdf->y_proj = (float **)ft_calloc(fdf->y_max, sizeof(float));
-// 	if (!fdf->y_proj)
-// 		perror_and_exit(ERR_MALLOC, fdf);
-// 	while (y < fdf->y_max)
-// 	{
-// 		fdf->x_proj[y] = (float *)ft_calloc(fdf->x_max, sizeof(float));
-// 		if (!fdf->x_proj[y])
-// 			perror_and_exit(ERR_MALLOC, fdf);
-// 		fdf->y_proj[y] = (float *)ft_calloc(fdf->x_max, sizeof(float));
-// 		if (!fdf->y_proj[y])
-// 			perror_and_exit(ERR_MALLOC, fdf);
-// 		y++;
-// 	}
-// }
+	y = 0;
+	fdf->x_proj = (float **)ft_calloc(fdf->y_max, sizeof(float *));
+	if (!fdf->x_proj)
+		perror_and_exit(ERR_MALLOC, fdf);
+	fdf->y_proj = (float **)ft_calloc(fdf->y_max, sizeof(float *));
+	if (!fdf->y_proj)
+		perror_and_exit(ERR_MALLOC, fdf);
+	while (y < fdf->y_max)
+	{
+		fdf->x_proj[y] = (float *)ft_calloc(fdf->x_max, sizeof(float));
+		if (!fdf->x_proj[y])
+			perror_and_exit(ERR_MALLOC, fdf);
+		fdf->y_proj[y] = (float *)ft_calloc(fdf->x_max, sizeof(float));
+		if (!fdf->y_proj[y])
+			perror_and_exit(ERR_MALLOC, fdf);
+		y++;
+	}
+}
 
 /*
 Used in get_scale().
@@ -89,11 +91,12 @@ static void	get_extrema(t_fdf *fdf)
 }
 
 /*
+Used in calculate_projection_paramters().
 Calculates the scaling factor needed to fit the projected map within the window.
 The smaller of the two scaling factors is stored in 'fdf->scale', ensuring that
 the entire map fits within the window.
 */
-void	get_scale(t_fdf *fdf)
+static void	get_scale(t_fdf *fdf)
 {
 	float	x_range;
 	float	y_range;
@@ -114,10 +117,11 @@ void	get_scale(t_fdf *fdf)
 }
 
 /*
+Used in calculate_projection_paramters().
 Saves the offset from window's x and y needed to center the projection
 in 'fdf->x_offset' and 'fdf->y_offset', respectively.
 */
-void	get_offset(t_fdf *fdf)
+static void	get_offset(t_fdf *fdf)
 {
 	float	x_range;
 	float	y_range;
@@ -130,4 +134,16 @@ void	get_offset(t_fdf *fdf)
 	fdf->x_offset = x_offset;
 	y_offset = (WINDOW_H - (y_range * fdf->scale)) / 2;
 	fdf->y_offset = y_offset;
+}
+
+/*
+Calculates the scaling factor and offsets necessary to project the map onto
+the image correctly. Additionally, it allocates memory to store projected
+coordinates.
+*/
+void	calculate_projection_paramters(t_fdf *fdf)
+{
+	get_scale(fdf);
+	get_offset(fdf);
+	allocate_memory(fdf);
 }

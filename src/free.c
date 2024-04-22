@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 23:00:59 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 16:52:31 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 20:58:48 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,29 @@ execution or whenever the program terminates unexpectedly.
 
 void	free_fdf(t_fdf **fdf_ptr);
 void	free_str_arr(char ***array_ptr);
+
+
+/*
+Used in free_fdf().
+Frees all resources associated with the mlx components and set all pointers
+to NULL for the window, image, and display (connection to X11).
+*/
+static void	free_mlx(t_fdf *fdf)
+{
+	if (fdf->mlx)
+	{
+		if (fdf->win)
+			mlx_destroy_window(fdf->mlx, fdf->win);
+		if (fdf->img.img)
+			mlx_destroy_image(fdf->mlx, fdf->img.img);
+		mlx_destroy_display(fdf->mlx);
+		free(fdf->mlx);
+		fdf->win = NULL;
+		fdf->img.img = NULL;
+		fdf->img.data = NULL;
+		fdf->mlx = NULL;
+	}
+}
 
 /*
 Used in free_fdf().
@@ -48,24 +71,24 @@ static void	free_int_arr(int ***array_ptr, t_fdf *fdf)
 
 /*
 Used in free_fdf().
-Frees all resources associated with the mlx components and set all pointers
-to NULL for the window, image, and display (connection to X11).
+Same as free_int_arr() but for a matrix of float values.
 */
-static void	free_mlx(t_fdf *fdf)
+static void	free_float_arr(float ***array_ptr, t_fdf *fdf)
 {
-	if (fdf->mlx)
+	int		y;
+	float	**array;
+
+	y = 0;
+	array = *array_ptr;
+	if (!array)
+		return ;
+	while (y < fdf->y_max)
 	{
-		if (fdf->win)
-			mlx_destroy_window(fdf->mlx, fdf->win);
-		if (fdf->img.img)
-			mlx_destroy_image(fdf->mlx, fdf->img.img);
-		mlx_destroy_display(fdf->mlx);
-		free(fdf->mlx);
-		fdf->win = NULL;
-		fdf->img.img = NULL;
-		fdf->img.data = NULL;
-		fdf->mlx = NULL;
+		free(array[y]);
+		y++;
 	}
+	free(array);
+	*array_ptr = NULL;
 }
 
 /*
@@ -91,6 +114,8 @@ void	free_fdf(t_fdf **fdf_ptr)
 	}
 	free_int_arr(&fdf->z, fdf);
 	free_int_arr(&fdf->color, fdf);
+	free_float_arr(&fdf->x_proj, fdf);
+	free_float_arr(&fdf->y_proj, fdf);
 	*fdf_ptr = NULL;
 }
 

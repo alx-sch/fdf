@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:37:19 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 20:01:47 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 21:12:26 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ static void	render_proj_coordinates(t_fdf *fdf)
 
 	x = 0;
 	y = 0;
-	get_scale(fdf);
-	get_offset(fdf);
+	calculate_projection_paramters(fdf);
 	while (y < fdf->y_max)
 	{
 		while (x < fdf ->x_max)

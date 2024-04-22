@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 20:00:59 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 21:04:32 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,7 @@ void	get_color(t_fdf *fdf, char *file);
 
 // map_projection.c
 
-void	get_scale(t_fdf *fdf);
-void	get_offset(t_fdf *fdf);
+void	calculate_projection_paramters(t_fdf *fdf);
 
 // mlx_render.c
 
