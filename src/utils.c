@@ -6,13 +6,17 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:53:16 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/21 22:29:30 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 17:04:22 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+TBD
+*/
+
 #include "fdf.h"
 
-// FILE
+// IN FILE
 
 void	msg_and_exit(char *msg, t_fdf *fdf);
 void	perror_and_exit(char *msg, t_fdf *fdf);

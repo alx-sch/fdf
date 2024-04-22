@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 14:55:38 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/21 23:41:55 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 19:51:30 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,16 @@
 // Isometric projection: 30° from horizontal line to x and y axes.
 # define ANGLE			30
 
-// Z-scale: For example 10 unit x 0.1 = 1 unit (same as x and y)
-# define Z_SCALE		0.1
+// Z_SCALE: For example 10 unit x 0.1 = 1 unit (same as x and y)
+# define Z_S		0.1
 
-// Screen Utilization [0-1]:
+/*
+SCREEN_UTILIZATION [0-1]: Minimum space between the projected map and
+the edges of the window:
+- 1:	No space between the projection and window edges.
+- 0.5:	At least 25% of the window size between each side of the projection and
+		the window edges.
+*/
 # define SCREEN_UTIL	0.9
 
 // List of Color Macros (as suggested by ChatGPT)

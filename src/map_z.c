@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 /*
-This file contains a function to parse the z-values (map depth) to 'fdf->z'.
+This file contains a function to parse the z-values (map depth)
+to int matrix 'fdf->z'.
 */
 
 #include "fdf.h"

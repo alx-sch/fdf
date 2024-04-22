@@ -6,20 +6,22 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 23:00:59 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/21 23:30:45 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 16:52:31 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+This file contains functions for deallocating memory, resetting pointers to
+NULL, and closing open file descriptors, ensuring proper cleanup after program
+execution or whenever the program terminates unexpectedly.
+*/
+
 #include "fdf.h"
 
-// FILE
+// IN FILE:
 
 void	free_fdf(t_fdf **fdf_ptr);
 void	free_str_arr(char ***array_ptr);
-
-//	+++++++++++++++
-//	++ FUNCTIONS ++
-//	+++++++++++++++
 
 /*
 Used in free_fdf().

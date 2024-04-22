@@ -6,15 +6,17 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/21 23:32:49 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 20:34:38 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// This file implements the main() for the FDF program.
+/*
+TBD
+*/
 
 #include "fdf.h"
 
-// FILE
+// IN FILE:
 
 int		main(int argc, char **argv);
 
@@ -48,7 +50,7 @@ static void	check_file(int argc, char **argv)
 }
 
 /*
-Initializing map members in the fdf structure to NULL / zero.
+Initializing map members in the fdf structure to starting values.
 This helps to avoid accessing variables that are not initialized, e.g.
 in free_fdf() which is automatically called throughout the program once
 the program terminates due to an error.
@@ -62,24 +64,27 @@ static void	null_fdf(t_fdf *fdf)
 	fdf->color_provided = 0;
 	fdf->fd = -1;
 	fdf->line = NULL;
-	fdf->mlx = NULL;
 	fdf->x_proj_max = 0;
 	fdf->y_proj_max = 0;
-	fdf->x_proj_min= FLT_MAX;
+	fdf->x_proj_min = FLT_MAX;
 	fdf->y_proj_min = FLT_MAX;
+	fdf->x_proj = NULL;
+	fdf->y_proj = NULL;
+	fdf->mlx = NULL;
 }
 
+
 /*
-Initialiazes members of the'fdf' structure:
-- Initializing
-- Map width (fdf->map_x)
-- Map height (fdf->map_y)
-- Map depth (fdf->map_z)
-- The connection to the graphic system (fdf->mlx)
-- The window (fdf->win)
-- The image buffer (fdf->img)
+Initial assignment of members of the 'fdf' structure:
+- Map width (fdf->x_max; int)
+- Map height (fdf->y_max; int)
+- Map depth (fdf->z; int**)
+- Map color (fdf->color; int **)
+- The connection to the graphic system (fdf->mlx; void *)
+- The window (fdf->win; void *)
+- The image buffer (fdf->img; t_img)
 */
-static void	init_fdf(t_fdf *fdf, char *file)
+static void	parse_map_and_init_mlx(t_fdf *fdf, char *file)
 {
 	null_fdf(fdf);
 	get_x_and_y(fdf, file);
@@ -96,61 +101,16 @@ static void	init_fdf(t_fdf *fdf, char *file)
 			&fdf->img.size_len, &fdf->img.endian);
 }
 
-
-// static int	handle_events(t_fdf *fdf)
-// {
-// 	if (fdf->close_window)
-// 	{
-// 		mlx_destroy_window(fdf->mlx, fdf->win);
-// 		fdf->win = NULL;
-// 		mlx_loop_end(fdf->mlx);
-// 	}
-// 	return (0);
-// }
-
-/*
-Initialiazes graphic-related members of the 'fdf' structure:
-- The connection to the graphic system (fdf->mlx)
-- The window (fdf->win)
-- The image buffer (fdf->img)
-*/
-
-
 //	+++++++++++++
 //	++ PROGRAM ++
 //	+++++++++++++
-
-// void print_int_2d_array(int **array, int rows, int cols)
-// {
-// 	for (int i = 0; i < rows; i++) {
-// 		for (int j = 0; j < cols; j++) {
-// 			ft_printf("%d ", array[i][j]);
-// 		}
-// 		ft_printf("\n");
-// 	}
-// }
-
-// int my_keyhook(int keycode, void *param)
-// {
-//     t_fdf *fdf = (t_fdf *)param;
-
-//     // Check if the Escape key (keycode 53) is pressed
-//     if (keycode == 53)
-//     {
-//         printf("ESCP PRESSED\n");
-//         mlx_destroy_window(fdf->mlx, fdf->win);
-//         exit(EXIT_SUCCESS); // Exit the program
-//     }
-
-//     return 0; // Return 0 to indicate that the event was handled successfully
-// }
 
 int	main(int argc, char **argv)
 {
 	t_fdf	fdf;
 
 	check_file(argc, argv);
-	init_fdf(&fdf, argv[1]);
+	parse_map_and_init_mlx(&fdf, argv[1]);
 
 	render_image(&fdf);
 
@@ -161,86 +121,3 @@ int	main(int argc, char **argv)
 	ft_printf("TEST\n");
 	exit(EXIT_SUCCESS);
 }
-
-
-// int	main(int argc, char **argv)
-// {
-// 	t_fdf		fdf;
-
-// 	check_file(argc, argv);
-// 	init_fdf(&fdf, argv[1]);
-// ///
-// 	ft_printf("map_x: %d\n", fdf.map_x);
-// 	ft_printf("map_y: %d\n", fdf.map_y);
-
-// 	// ft_printf("\nZ values:\n");
-// 	// print_int_2d_array(fdf.map_z, fdf.map_y, fdf.map_x);
-
-// 	// ft_printf("\nColor values:\n");
-// 	// print_int_2d_array(fdf.map_color, fdf.map_y, fdf.map_x);
-
-// 	if (fdf.color_provided)
-// 		ft_printf("\nColor provided!\n");
-// 	else
-// 		ft_printf("\nColor NOT provided!\n");
-
-
-
-// 	render_image(&fdf);
-
-// 	mlx_key_hook(fdf.mlx, &my_keyhook, &fdf);
-
-// 	mlx_loop(fdf.mlx);
-
-// 	free_fdf(&fdf);
-// 	exit(EXIT_SUCCESS);
-// }
-
-	// mlx_hook(fdf.win, DestroyNotify, 0, &close_window, &fdf);
-	// mlx_hook(fdf.win, KeyPress, KeyPressMask, &handle_keypress, &fdf);
-	// mlx_loop_hook(fdf.mlx, &handle_events, &fdf);
-
-// int	main(int argc, char **argv)
-// {
-// 	t_fdf	fdf;
-
-// 	check_file(argc, argv);
-// 	init_fdf(&fdf, argv[1]);
-
-// 	ft_printf("map_x: %d\n", fdf.map_x);
-// 	ft_printf("map_y: %d\n", fdf.map_y);
-
-// 	ft_printf("\nZ values:\n");
-// 	print_int_2d_array(fdf.map_z, fdf.map_y, fdf.map_x);
-
-// 	ft_printf("\nColor values:\n");
-// 	print_int_2d_array(fdf.map_color, fdf.map_y, fdf.map_x);
-
-// 	// if (fdf.color_provided)
-// 	// 	ft_printf("\nColor provided!\n");
-// 	// else
-// 	// 	ft_printf("\nColor NOT provided!\n");
-
-
-// 	//ft_printf("\n0xFF0000 as int: %d\n", ft_atoi_base("FF0000", 16));
-
-// 	free_fdf(&fdf);
-// 	exit(EXIT_SUCCESS);
-// }
-
-
-
-
-// int main(int argc, char **argv)
-// {
-//     t_vars vars;
-// 	t_fdf fdf;
-
-// 	check_file(argc, argv);
-// 	init_fdf(&fdf, argv[1]);
-//     vars.mlx = mlx_init();
-//     vars.win = mlx_new_window(vars.mlx, 800, 600, "Window");
-//     mlx_key_hook(vars.win, close_window, &vars);
-//     mlx_loop(vars.mlx);
-//     return (0);
-// }

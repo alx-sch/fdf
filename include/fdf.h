@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/21 23:50:07 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 20:00:59 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,6 @@
 # include <string.h> // strerror
 # include <float.h> // FLT_MAX macro
 # include <math.h> // sin(), cos()
-
-//	++++++++++++
-//	++ MACROS ++
-//	++++++++++++
 
 //	++++++++++++++++
 //	++ STRUCTURES ++
@@ -82,6 +78,8 @@ typedef struct s_fdf
 	float	scale;
 	float	x_offset;
 	float	y_offset;
+	float	**x_proj;
+	float	**y_proj;
 }	t_fdf;
 
 
@@ -108,6 +106,11 @@ void	get_z(t_fdf *fdf, char *file);
 // map_color.c
 
 void	get_color(t_fdf *fdf, char *file);
+
+// map_projection.c
+
+void	get_scale(t_fdf *fdf);
+void	get_offset(t_fdf *fdf);
 
 // mlx_render.c
 

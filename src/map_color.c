@@ -12,11 +12,13 @@
 
 /*
 This file contains a function to parse the color values as integers to
-'fdf->color'. If no color codes are provided for an entry, the default
+int matrix 'fdf->color'. If no color codes are provided for an entry, the default
 WIRE_COLOR is used.
 */
 
 #include "fdf.h"
+
+// IN FILE:
 
 void	get_color(t_fdf *fdf, char *file);
 
