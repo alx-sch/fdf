@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:37:19 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 21:12:26 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 21:29:14 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,35 +49,23 @@ static void	render_background(t_fdf *fdf)
 	}
 }
 
-static void	render_proj_coordinates(t_fdf *fdf)
+void	render_image(t_fdf *fdf)
 {
-	int		x;
-	int		y;
-	float	x_proj;
-	float	y_proj;
+	int x = 0;
+	int y = 0;
 
-	x = 0;
-	y = 0;
-	calculate_projection_paramters(fdf);
+	render_background(fdf);
+	get_projected_coordinates(fdf);
+
 	while (y < fdf->y_max)
 	{
 		while (x < fdf ->x_max)
 		{
-			x_proj = (((x - y) * cos(ANGLE * M_PI / 180)) - fdf->x_proj_min)
-				* fdf->scale + fdf->x_offset;
-			y_proj = (((x + y) * sin(ANGLE * M_PI / 180) - fdf->z[y][x] * Z_S)
-					- fdf->y_proj_min) * fdf->scale + fdf->y_offset;
-			img_pix_put(&fdf->img, x_proj, y_proj, fdf->color[y][x]);
+			img_pix_put(&fdf->img, fdf->x_proj[y][x], fdf->y_proj[y][x], fdf->color[y][x]);
 			x++;
 		}
 		x = 0;
 		y++;
 	}
-}
-
-void	render_image(t_fdf *fdf)
-{
-	render_background(fdf);
-	render_proj_coordinates(fdf);
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img.img, 0, 0);
 }

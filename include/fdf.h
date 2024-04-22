@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 21:04:32 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 22:04:14 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <fcntl.h> // open, close, read, write
 # include <stdio.h> // perror
 # include <string.h> // strerror
-# include <float.h> // FLT_MAX macro
+# include <limits.h> // INT_MAX; only used instead of <float.h> bc of Norminette
 # include <math.h> // sin(), cos()
 
 //	++++++++++++++++
@@ -82,7 +82,6 @@ typedef struct s_fdf
 	float	**y_proj;
 }	t_fdf;
 
-
 //	+++++++++++++
 //	++ PROGRAM ++
 //	+++++++++++++
@@ -109,13 +108,13 @@ void	get_color(t_fdf *fdf, char *file);
 
 // map_projection.c
 
-void	calculate_projection_paramters(t_fdf *fdf);
+void	get_projected_coordinates(t_fdf *fdf);
 
 // mlx_render.c
 
 void	render_image(t_fdf *fdf);
 
-// mlx_events.c
+// mlx_hook_callback.c
 
 int		handle_keypress(int keycode, t_fdf *fdf);
 int		handle_x(t_fdf	*fdf);

@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 21:00:46 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 22:02:03 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ static void	null_fdf(t_fdf *fdf)
 	fdf->line = NULL;
 	fdf->x_proj_max = 0;
 	fdf->y_proj_max = 0;
-	fdf->x_proj_min = FLT_MAX;
-	fdf->y_proj_min = FLT_MAX;
+	fdf->x_proj_min = (float)INT_MAX;
+	fdf->y_proj_min = (float)INT_MAX;
 	fdf->x_proj = NULL;
 	fdf->y_proj = NULL;
 	fdf->mlx = NULL;
@@ -89,7 +89,6 @@ static void	parse_map_and_init_mlx(t_fdf *fdf, char *file)
 	get_x_and_y(fdf, file);
 	get_z(fdf, file);
 	get_color(fdf, file);
-	//allocate_memory_for_projection(fdf);
 	fdf->mlx = mlx_init();
 	if (!fdf->mlx)
 		msg_and_exit(ERR_MLX, fdf);

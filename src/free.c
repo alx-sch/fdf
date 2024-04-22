@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/12 23:00:59 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 20:58:48 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 21:41:43 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ execution or whenever the program terminates unexpectedly.
 
 void	free_fdf(t_fdf **fdf_ptr);
 void	free_str_arr(char ***array_ptr);
-
 
 /*
 Used in free_fdf().

@@ -6,25 +6,28 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 18:03:53 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 21:10:10 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 21:40:49 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 This file contains functions to calculate the appropriate scaling factor and
-offsets, ensuring that the projection fits into the window and is centered.
+offsets, ensuring that the projection fits into the image and is centered.
+These functions are used to project the 3D coordinates of the map (x, y, z)
+into a 2D format for display on the image.
 */
 
 #include "fdf.h"
 
 // IN FILE
-void	calculate_projection_paramters(t_fdf *fdf);
+
+void	get_projected_coordinates(t_fdf *fdf);
 
 /*
-Used in calculate_projection_paramters().
-Allocates memory for two 2D arrays ('fdf->x_proj' and 'fdf->y_proj') to store
-projected coordinates corresponding to the map file.
-These arrays hold the projected x and y values on the image for each
+Used in get_projected_coordinates().
+Allocates memory for two 2D matrices to store projected coordinates corresponding
+to the map file ('fdf->x_proj' and 'fdf->y_proj').
+These matrices hold the projected x and y values on the image for each
 map coordinate (x, y, z).
 */
 static void	allocate_memory(t_fdf *fdf)
@@ -52,14 +55,14 @@ static void	allocate_memory(t_fdf *fdf)
 
 /*
 Used in get_scale().
-Projects the map's coordinates (3D: x, y, z) into 2D projection (x_proj, y_proj)
-with a specified 'ANGLE' between the horizontal line and x and y axis.
-These projected coordinates might be negative or larger than the
-image width/height would allow, creating a segmentation fault when trying to
-access these out-of-bounds locations in the image buffer (see img_pix_put()).
-In order to avoid this, the min. and max. values of the projected x and y
-coordinates are stroed in the 'fdf' structure and other fcts to determine the
-scaling factor and offsets.
+Projects the map's coordinates (3D: x, y, z) into a 2D projection with the
+specified 'ANGLE' between the horizontal line and the x and y axes.
+These projected coordinates might be negative or larger than the image
+width/height would allow, potentially causing a segmentation fault when trying
+to access out-of-bounds locations in the image buffer (see img_pix_put()).
+To prevent this, the minimum and maximum values of the projected x and y
+coordinates are stored in the 'fdf' structure for use in determining
+the scaling factor and offsets.
 */
 static void	get_extrema(t_fdf *fdf)
 {
@@ -91,10 +94,10 @@ static void	get_extrema(t_fdf *fdf)
 }
 
 /*
-Used in calculate_projection_paramters().
-Calculates the scaling factor needed to fit the projected map within the window.
-The smaller of the two scaling factors is stored in 'fdf->scale', ensuring that
-the entire map fits within the window.
+Used in get_projected_coordinates().
+Calculates the scaling factor required to fit the projected map within the
+image. Stores the smaller of the two scaling factors in 'fdf->scale', ensuring
+that the entire map fits within the window.
 */
 static void	get_scale(t_fdf *fdf)
 {
@@ -117,9 +120,9 @@ static void	get_scale(t_fdf *fdf)
 }
 
 /*
-Used in calculate_projection_paramters().
-Saves the offset from window's x and y needed to center the projection
-in 'fdf->x_offset' and 'fdf->y_offset', respectively.
+Used in get_projected_coordinates().
+Calculates and stores the offset from the window's x and y coordinates necessary
+to center the projection in 'fdf->x_offset' and 'fdf->y_offset'.
 */
 static void	get_offset(t_fdf *fdf)
 {
@@ -137,13 +140,35 @@ static void	get_offset(t_fdf *fdf)
 }
 
 /*
-Calculates the scaling factor and offsets necessary to project the map onto
-the image correctly. Additionally, it allocates memory to store projected
-coordinates.
+Projects the x, y, and z coordinates of the map into a 2D format, allowing
+the drawing of the projection onto the image.
+Projected coordinates are stored in matrices 'fdf->x_proj' and 'fdf->y_proj'.
 */
-void	calculate_projection_paramters(t_fdf *fdf)
+void	get_projected_coordinates(t_fdf *fdf)
 {
+	int		x;
+	int		y;
+	float	x_proj;
+	float	y_proj;
+
+	x = 0;
+	y = 0;
 	get_scale(fdf);
 	get_offset(fdf);
 	allocate_memory(fdf);
+	while (y < fdf->y_max)
+	{
+		while (x < fdf ->x_max)
+		{
+			x_proj = (((x - y) * cos(ANGLE * M_PI / 180)) - fdf->x_proj_min)
+				* fdf->scale + fdf->x_offset;
+			y_proj = (((x + y) * sin(ANGLE * M_PI / 180) - fdf->z[y][x] * Z_S)
+					- fdf->y_proj_min) * fdf->scale + fdf->y_offset;
+			fdf->x_proj[y][x] = x_proj;
+			fdf->y_proj[y][x] = y_proj;
+			x++;
+		}
+		x = 0;
+		y++;
+	}
 }

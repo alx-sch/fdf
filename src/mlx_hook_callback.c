@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:34:56 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 17:03:43 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/22 21:42:58 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	handle_keypress(int keycode, t_fdf *fdf)
 	}
 	return (0);
 }
+
 // TBD
 int	handle_x(t_fdf	*fdf)
 {
