@@ -6,12 +6,16 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 14:53:16 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 17:04:22 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/23 16:49:16 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-TBD
+This file contains functions for terminating the program in a controlled manner
+whenever an error occurs (such as invalid user input, failed file opening,
+memory allocation errors, etc.). Before terminating the program, informative
+error messages are printed to stderr, and all dynamically allocated memory
+within the FDF structure is deallocated.
 */
 
 #include "fdf.h"

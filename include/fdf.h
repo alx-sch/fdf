@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 22:04:14 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/23 18:24:35 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,22 +32,24 @@
 //	++ STRUCTURES ++
 //	++++++++++++++++
 
-// Data structure holding image info, incl. dimensions, pixel data, color, and
-// endianess.
-//	- void *img:	Pointer to image object. Used when manipulating image as a
-//					whole, e.g. loading into memory or passing to redering ftcs.
-//	- char *data:	Pointer to the start of image data -> raw pixel information.
-//					Used in operations reading/modifying individual pixels, such
-//					as setting the color.
-//	- int bpp:		Number of bits used to represent each pixel, which
-//					defines the color depth: 32 bits (4 bytes) -> TRGB
-//	- int size_len:	Length of each line in the image in bytes,
-//					indicating the number of bytes needed to store a single
-//					row of pixels in the image.
-//	- int endian:	Endianness refers to the byte order in which data types are
-//					stored in memory (either big or little endian; left to right
-//					and right to left, respectively). Used to determine how to
-//					interpret image data ('img' and 'data' members).
+/*
+Data structure holding image info, incl. dimensions, pixel data, color, and
+endianess.
+- void *img:	Pointer to image object. Used when manipulating image as a
+				whole, e.g. loading into memory or passing to redering ftcs.
+- char *data:	Pointer to the start of image data -> raw pixel information.
+				Used in operations reading/modifying individual pixels, such
+				as setting the color.
+- int bpp:		Number of bits used to represent each pixel, which
+				defines the color depth: 24 bits (3 bytes) / pixel -> RGB
+- int size_len:	Length of each line in the image in bytes,
+				indicating the number of bytes needed to store a single
+				row of pixels in the image.
+- int endian:	Endianness refers to the byte order in which data types are
+				stored in memory (either big or little endian; left to right
+				and right to left, respectively). Used to determine how to
+				interpret image data ('img' and 'data' members).
+*/
 typedef struct s_img
 {
 	void	*img;
@@ -57,8 +59,33 @@ typedef struct s_img
 	int		endian;
 }	t_img;
 
-//	- int color_provided:	Flag if .fdf file provides colors (no: 0, yes: 1).
-// close_window needed to set a flag
+/*
+Data structure holding map information, MiniLibX components, and projection data:
+- int fd:		File Descriptor holding the opened file for reading the map data.
+- char* line:	Pointer to a string, as returned by get_next_line().
+- int x_map:	The number of columns (width) in the map grid.
+- int y_map:	The number of rows (height) in the map grid.
+- int **z:		2D array representing the depths of the map. Each element
+				corresponds to a specific row and column in the map: z[row][column]
+- int **color:	2D array representing the color of the map. Each element
+				corresponds to a specific row and column in the map:
+				color[row][column]
+- int col_prov:	Flag indicating if map provided color information (NOT USED).
+- void *mlx:	Connection to the graphic system as handled by MiniLibX.
+- void *win:	Pointer to the window as handled by MiniLibX.
+- t_img img:	Data structure holding image information (see above).
+- float x_proj_max:		The max. value of 2D projected coordinates along the
+						image width.
+- [...]
+- float scale:			Scaling factor used to resize the projection to the desired
+						SCREEN_UTIL.
+- float x_offset:		Offset along the image width used to center the projection.
+- float y_offset:		Offset along the image height used to center the projection.
+- float **x_proj:		2D array holding projected map coordinates along the
+						image width: x_proj[row][column]
+- float **x_proj:		2D array holding projected map coordinates along the
+						image height: x_proj[row][column]
+*/
 typedef struct s_fdf
 {
 	int		fd;
@@ -67,7 +94,7 @@ typedef struct s_fdf
 	int		y_max;
 	int		**z;
 	int		**color;
-	int		color_provided;
+	int		col_prov;
 	void	*mlx;
 	void	*win;
 	t_img	img;
@@ -114,7 +141,7 @@ void	get_projected_coordinates(t_fdf *fdf);
 
 void	render_image(t_fdf *fdf);
 
-// mlx_hook_callback.c
+// mlx_hooks.c
 
 int		handle_keypress(int keycode, t_fdf *fdf);
 int		handle_x(t_fdf	*fdf);

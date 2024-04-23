@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:37:19 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 21:29:14 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/23 16:47:42 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,31 @@ static void	render_background(t_fdf *fdf)
 	}
 }
 
+// void draw_line(t_img *img, int x0, int y0, int x1, int y1, int color)
+void draw_line(t_img *img, int x0, int y0, int x1, int y1, int color)
+{
+    int dx = abs(x1 - x0);
+    int dy = abs(y1 - y0);
+    int sx = x0 < x1 ? 1 : -1;
+    int sy = y0 < y1 ? 1 : -1;
+    int err = dx - dy;
+    int e2;
+
+    while (x0 != x1 || y0 != y1)
+	{
+        img_pix_put(img, x0, y0, color);
+        e2 = 2 * err;
+        if (e2 > -dy) {
+            err -= dy;
+            x0 += sx;
+        }
+        if (e2 < dx) {
+            err += dx;
+            y0 += sy;
+        }
+    }
+}
+
 void	render_image(t_fdf *fdf)
 {
 	int x = 0;
@@ -67,5 +92,14 @@ void	render_image(t_fdf *fdf)
 		x = 0;
 		y++;
 	}
+
+	for (int y = 0; y < fdf->y_max; y++) {
+        for (int x = 0; x < fdf->x_max; x++) {
+            if (x < (fdf->x_max - 1))
+                draw_line(&fdf->img, fdf->x_proj[y][x], fdf->y_proj[y][x], fdf->x_proj[y][x + 1],  fdf->y_proj[y][x+1], fdf->color[y][x]); // Draw horizontal line
+            if (y < (fdf->y_max -1))
+                draw_line(&fdf->img, fdf->x_proj[y][x],  fdf->y_proj[y][x], fdf->x_proj[y + 1][x], fdf->y_proj[y +1][x], fdf->color[y][x]); // Draw vertical line
+        }
+    }
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img.img, 0, 0);
 }

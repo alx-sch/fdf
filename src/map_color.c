@@ -27,9 +27,9 @@ Used in parse_color().
 Parses a hexadecimal color code string and validates its format and range
 (FFFFFF == 16777215);
 Returns:
- - The integer representation of the color code via ft_atoi_base(), if valid.
- - Otherwise, frees allocated memory, prints error message and terminates
-   the program.
+- The integer representation of the color code via ft_atoi_base(), if valid.
+- Otherwise, frees allocated memory, prints error message and terminates
+  the program.
 */
 static int	get_color_code(char *color_str, char **token_arr, t_fdf *fdf)
 {
@@ -68,7 +68,7 @@ static void	parse_color(t_fdf *fdf, int y)
 		color_str = ft_strchr(token_arr[x], ',');
 		if (color_str)
 		{
-			fdf->color_provided = 1;
+			fdf->col_prov = 1;
 			fdf->color[y][x] = get_color_code(color_str, token_arr, fdf);
 		}
 		else

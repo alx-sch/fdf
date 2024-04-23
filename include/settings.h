@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 14:55:38 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/23 15:40:22 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/23 17:49:38 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define ANGLE			30
 
 // Z_SCALE: For example 10 unit x 0.1 = 1 unit (same as x and y)
-# define Z_S			0.1
+# define Z_S			0.08
 
 /*
 SCREEN_UTILIZATION [0-1]: Minimum space between the projected map and
@@ -38,7 +38,7 @@ the edges of the window:
 */
 # define SCREEN_UTIL	0.9
 
-// List of Color Macros (as suggested by ChatGPT)
+// List of Color Macros
 
 # define BLACK			0x000000
 # define WHITE			0xFFFFFF

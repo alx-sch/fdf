@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 18:03:53 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/23 15:39:29 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/23 17:49:14 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ void	get_projected_coordinates(t_fdf *fdf);
 
 /*
 Used in get_projected_coordinates().
-Allocates memory for two 2D matrices to store projected coordinates corresponding
-to the map file ('fdf->x_proj' and 'fdf->y_proj').
-These matrices hold the projected x and y values on the image for each
-map coordinate (x, y, z).
-*/
+Allocates memory for two 2D matrices ('fdf->x_proj' and 'fdf->y_proj') to store
+projected coordinates corresponding to the map file.
+These matrices hold the projected x and y values on the image for
+each map coordinate (x, y, z).
+ */
 static void	allocate_memory(t_fdf *fdf)
 {
 	int	y;
@@ -57,12 +57,10 @@ static void	allocate_memory(t_fdf *fdf)
 Used in get_scale().
 Projects the map's coordinates (3D: x, y, z) into a 2D projection with the
 specified 'ANGLE' between the horizontal line and the x and y axes.
-These projected coordinates might be negative or larger than the image
-width/height would allow, potentially causing a segmentation fault when trying
-to access out-of-bounds locations in the image buffer (see img_pix_put()).
-To prevent this, the minimum and maximum values of the projected x and y
-coordinates are stored in the 'fdf' structure for use in determining
-the scaling factor and offsets.
+Calculates and stores the minimum and maximum values of the projected x and y
+coordinates in the 'fdf' structure. These values are used to offset the
+projection appropriately, preventing segmentation faults caused by out-of-bounds
+access in the image buffer.
 */
 static void	get_extrema(t_fdf *fdf)
 {
@@ -94,9 +92,9 @@ static void	get_extrema(t_fdf *fdf)
 
 /*
 Used in get_projected_coordinates().
-Calculates the scaling factor required to fit the projected map within the
-image. Stores the smaller of the two scaling factors in 'fdf->scale', ensuring
-that the entire map fits within the window.
+Calculates the scaling factor required to fit the projected map within the image.
+Stores the smaller of the two scaling factors in 'fdf->scale', ensuring that the
+entire map fits within the window.
 */
 static void	get_scale(t_fdf *fdf)
 {
@@ -121,8 +119,9 @@ static void	get_scale(t_fdf *fdf)
 /*
 Used in get_projected_coordinates().
 Calculates and stores the offset from the window's x and y coordinates necessary
-to center the projection in 'fdf->x_offset' and 'fdf->y_offset'.
-*/
+to center the projection.
+The calculated offsets are stored in 'fdf->x_offset' and 'fdf->y_offset'.
+ */
 static void	get_offset(t_fdf *fdf)
 {
 	float	x_range;

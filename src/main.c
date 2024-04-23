@@ -6,12 +6,13 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 22:02:03 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/23 18:04:57 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-TBD
+This file contains the main() function of the FDF program, along with functions
+for checking user input, file validity, and initialization of data structures.
 */
 
 #include "fdf.h"
@@ -25,12 +26,12 @@ int		main(int argc, char **argv);
 //	+++++++++++++++
 
 /*
-Checks user input and passed file.
-Prints error message and terminates the program, if:
- - Not exactly one argument is passed.
- - The passed file cannot be opened (e.g., does not exist or no read rights).
- - The passed file does not have the '.fdf' extension.
-*/
+Checks user input and the passed file.
+Prints an error message and terminates the program if:
+- Not exactly one argument is passed.
+- The passed file cannot be opened (e.g., does not exist or no read rights).
+- The passed file does not have the '.fdf' extension.
+ */
 static void	check_file(int argc, char **argv)
 {
 	int	fd;
@@ -50,18 +51,18 @@ static void	check_file(int argc, char **argv)
 }
 
 /*
-Initializing map members in the fdf structure to starting values.
-This helps to avoid accessing variables that are not initialized, e.g.
-in free_fdf() which is automatically called throughout the program once
-the program terminates due to an error.
-*/
+Initializes map members in the FDF structure to starting values.
+This helps prevent accessing uninitialized variables, particularly
+in functions like free_fdf(), which is automatically called in case
+of program termination due to an error.
+ */
 static void	null_fdf(t_fdf *fdf)
 {
 	fdf->x_max = 0;
 	fdf->y_max = 0;
 	fdf->z = NULL;
 	fdf->color = NULL;
-	fdf->color_provided = 0;
+	fdf->col_prov = 0;
 	fdf->fd = -1;
 	fdf->line = NULL;
 	fdf->x_proj_max = 0;
@@ -74,21 +75,27 @@ static void	null_fdf(t_fdf *fdf)
 }
 
 /*
-Initial assignment of members of the 'fdf' structure:
-- Map width (fdf->x_max; int)
-- Map height (fdf->y_max; int)
-- Map depth (fdf->z; int**)
-- Map color (fdf->color; int **)
-- The connection to the graphic system (fdf->mlx; void *)
-- The window (fdf->win; void *)
-- The image buffer (fdf->img; t_img)
-*/
-static void	parse_map_and_init_mlx(t_fdf *fdf, char *file)
+Parses map information into the FDF structure.
+- Retrieves map width (fdf->x_max)
+- Retrieves map height (fdf->y_max)
+- Populates map depth data (fdf->z)
+- Populates map color data (fdf->color)
+ */
+static void	parse_map(t_fdf *fdf, char *file)
 {
-	null_fdf(fdf);
 	get_x_and_y(fdf, file);
 	get_z(fdf, file);
 	get_color(fdf, file);
+}
+
+/*
+Initializes the MiniLibX components required for graphic rendering:
+- Establishes the connection to the graphic system (fdf->mlx).
+- Creates the window (fdf->win).
+- Sets up the image buffer (fdf->img).
+ */
+static void	init_mlx(t_fdf *fdf)
+{
 	fdf->mlx = mlx_init();
 	if (!fdf->mlx)
 		msg_and_exit(ERR_MLX, fdf);
@@ -104,17 +111,27 @@ static void	parse_map_and_init_mlx(t_fdf *fdf, char *file)
 //	++ PROGRAM ++
 //	+++++++++++++
 
+/*
+The FDF program:
+- Checks the provided file for validity.
+- Initializes the 'fdf' data structure with starting values.
+- Parses file information into the data structure.
+- Initializes MiniLibX components required for graphic rendering.
+- Renders the file with set settings onto the image.
+- Establishes hook events for user interaction, such as key input and
+  window manipulation.
+- Starts event handling via mlx_loop().
+ */
 int	main(int argc, char **argv)
 {
 	t_fdf	fdf;
 
 	check_file(argc, argv);
-	parse_map_and_init_mlx(&fdf, argv[1]);
+	null_fdf(&fdf);
+	parse_map(&fdf, argv[1]);
+	init_mlx(&fdf);
 	render_image(&fdf);
 	mlx_key_hook(fdf.win, &handle_keypress, &fdf);
 	mlx_hook(fdf.win, DestroyNotify, 0, &handle_x, &fdf);
 	mlx_loop(fdf.mlx);
-	printf("RIGHT\n");
-	ft_printf("TEST\n");
-	exit(EXIT_SUCCESS);
 }
