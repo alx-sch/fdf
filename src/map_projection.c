@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 18:03:53 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/22 21:40:49 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/23 15:39:29 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ the scaling factor and offsets.
 */
 static void	get_extrema(t_fdf *fdf)
 {
-	int	x;
-	int	y;
-	int	x_proj;
-	int	y_proj;
+	int		x;
+	int		y;
+	float	x_proj;
+	float	y_proj;
 
 	x = -1;
 	y = -1;
@@ -77,7 +77,6 @@ static void	get_extrema(t_fdf *fdf)
 	{
 		while (++x < fdf->x_max)
 		{
-			printf("x: %d\n", x);
 			x_proj = (x - y) * cos(ANGLE * M_PI / 180);
 			y_proj = (x + y) * sin(ANGLE * M_PI / 180) - fdf->z[y][x] * Z_S;
 			if (x_proj > fdf->x_proj_max)
