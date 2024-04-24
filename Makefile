@@ -6,7 +6,7 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/24 14:37:03 by aschenk          ###   ########.fr        #
+#    Updated: 2024/04/24 15:02:40 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,6 @@ BOLD :=			\033[1m
 RED :=			\033[31;2m
 GREEN :=		\033[32m
 YELLOW :=		\033[33m
-LRED :=			\033[91m
 
 # LOGO := "$(BOLD)${RED}  _     _     _  \n / \   / \   / \ \n( ${GREEN}F${RED} ) ( ${GREEN}D${RED} ) ( ${GREEN}F${RED} )\n \_/   \_/   \_/    \n\n$(RESET)$(BOLD)by Alex Schenk @42 Berlin, April 2024\n$(RESET)"
 LOGO := "$(BOLD)${GREEN}\n     ___           ___           ___     \n    /\  \         /\  \         /\  \    \n   /::\  \       /::\  \       /::\  \   \n  /:/\:\  \     /:/\:\  \     /:/\:\  \  \n /::\~\:\  \   /:/  \:\__\   /::\~\:\  \ \n/:/\:\ \:\__\ /:/__/ \:|__| /:/\:\ \:\__\n\/__\:\ \/__/ \:\  \ /:/  / \/__\:\ \/__/\n     \:\__\    \:\  /:/  /       \:\__\  \n      \/__/     \:\/:/  /         \/__/  \n                 \::/__/                  \n                  ~~\n\n$(RESET)$(BOLD)by Alex Schenk @42 Berlin, April 2024\n$(RESET)"
