@@ -86,9 +86,9 @@ and stores them in the int matrix 'fdf->color'.
 */
 void	get_color(t_fdf *fdf, char *file)
 {
-	int	row;
+	int	x;
 
-	row = 0;
+	x = 0;
 	fdf->color = (int **)ft_calloc(fdf->y_max, sizeof(int *));
 	if (!fdf->color)
 		perror_and_exit(ERR_MALLOC, fdf);
@@ -98,13 +98,13 @@ void	get_color(t_fdf *fdf, char *file)
 	fdf->line = get_next_line(fdf->fd);
 	while (fdf->line != NULL)
 	{
-		fdf->color[row] = (int *)ft_calloc(fdf->x_max, sizeof(int));
-		if (!fdf->color[row])
+		fdf->color[x] = (int *)ft_calloc(fdf->x_max, sizeof(int));
+		if (!fdf->color[x])
 			perror_and_exit(ERR_MALLOC, fdf);
-		parse_color(fdf, row);
+		parse_color(fdf, x);
 		free(fdf->line);
 		fdf->line = get_next_line(fdf->fd);
-		row++;
+		x++;
 	}
 	close(fdf->fd);
 }

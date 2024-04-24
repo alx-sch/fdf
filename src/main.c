@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/24 13:04:47 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:28:18 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ Prints an error message and terminates the program if:
 - Not exactly one argument is passed.
 - The passed file cannot be opened (e.g., does not exist or no read rights).
 - The passed file does not have the '.fdf' extension.
- */
+*/
 static void	check_file(int argc, char **argv)
 {
 	int	fd;
@@ -55,7 +55,7 @@ Initializes map members in the FDF structure to starting values.
 This helps prevent accessing uninitialized variables, particularly
 in functions like free_fdf(), which is automatically called in case
 of program termination due to an error.
- */
+*/
 static void	null_fdf(t_fdf *fdf)
 {
 	fdf->x_max = 0;
@@ -80,7 +80,7 @@ Parses map information into the FDF structure.
 - Retrieves map height (fdf->y_max)
 - Populates map depth data (fdf->z)
 - Populates map color data (fdf->color)
- */
+*/
 static void	parse_map(t_fdf *fdf, char *file)
 {
 	get_x_and_y(fdf, file);
@@ -93,7 +93,7 @@ Initializes the MiniLibX components required for graphic rendering:
 - Establishes the connection to the graphic system (fdf->mlx).
 - Creates the window (fdf->win).
 - Sets up the image buffer (fdf->img).
- */
+*/
 static void	init_mlx(t_fdf *fdf)
 {
 	fdf->mlx = mlx_init();

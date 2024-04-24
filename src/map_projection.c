@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 18:03:53 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/24 13:20:28 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:34:36 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ Allocates memory for two 2D matrices ('fdf->x_proj' and 'fdf->y_proj') to store
 projected coordinates corresponding to the map file.
 These matrices hold the projected x and y values on the image for
 each map coordinate (x, y, z).
- */
+*/
 static void	allocate_memory(t_fdf *fdf)
 {
 	int	y;
@@ -121,7 +121,7 @@ Used in project_3d_to_2d().
 Calculates and stores the offset from the window's x and y coordinates necessary
 to center the projection.
 The calculated offsets are stored in 'fdf->x_offset' and 'fdf->y_offset'.
- */
+*/
 static void	get_offset(t_fdf *fdf)
 {
 	float	x_range;
