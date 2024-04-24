@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 18:03:53 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/23 17:49:14 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:20:28 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ into a 2D format for display on the image.
 
 // IN FILE
 
-void	get_projected_coordinates(t_fdf *fdf);
+void	project_3d_to_2d(t_fdf *fdf);
 
 /*
 Used in get_projected_coordinates().
@@ -91,7 +91,7 @@ static void	get_extrema(t_fdf *fdf)
 }
 
 /*
-Used in get_projected_coordinates().
+Used in project_3d_to_2d().
 Calculates the scaling factor required to fit the projected map within the image.
 Stores the smaller of the two scaling factors in 'fdf->scale', ensuring that the
 entire map fits within the window.
@@ -117,7 +117,7 @@ static void	get_scale(t_fdf *fdf)
 }
 
 /*
-Used in get_projected_coordinates().
+Used in project_3d_to_2d().
 Calculates and stores the offset from the window's x and y coordinates necessary
 to center the projection.
 The calculated offsets are stored in 'fdf->x_offset' and 'fdf->y_offset'.
@@ -142,7 +142,7 @@ Projects the x, y, and z coordinates of the map into a 2D format, allowing
 the drawing of the projection onto the image.
 Projected coordinates are stored in matrices 'fdf->x_proj' and 'fdf->y_proj'.
 */
-void	get_projected_coordinates(t_fdf *fdf)
+void	project_3d_to_2d(t_fdf *fdf)
 {
 	int		x;
 	int		y;

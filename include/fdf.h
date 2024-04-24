@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/23 18:24:35 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/24 12:58:40 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,33 @@ typedef struct s_fdf
 	float	**y_proj;
 }	t_fdf;
 
+/*
+Data structure holding parameters used within Bresenham's line drawing algorithm.
+- x0:	The starting x-coordinate of the line.
+- y0:	The starting y-coordinate of the line.
+- x1:	The ending x-coordinate of the line.
+- y1:	The ending y-coordinate of the line.
+- dx:	Absolute difference in the x-coordinates of the two points, x1 and x0.
+- dy:	Absolute difference in the y-coordinates of the two points, y1 and y0.
+- sx:	Sign of the change in x-coordinate from x0 to x1, setting the incremental
+		steps required by the Bresenham algorithm. It is set to 1 if x0 is less than
+		x1, otherwise, it is set to -1.
+- sy:	Sign of the change in y-coordinate from y0 to y1, setting the incremental
+		steps required by the Bresenham algorithm. It is set to 1 if y0 is less than
+		y1, otherwise, it is set to -1.
+*/
+typedef struct s_bresenham
+{
+	int		x0;
+	int		y0;
+	int		x1;
+	int		y1;
+	int		dx;
+	int		dy;
+	int		sx;
+	int		sy;
+}	t_bresenham;
+
 //	+++++++++++++
 //	++ PROGRAM ++
 //	+++++++++++++
@@ -135,16 +162,21 @@ void	get_color(t_fdf *fdf, char *file);
 
 // map_projection.c
 
-void	get_projected_coordinates(t_fdf *fdf);
+void	project_3d_to_2d(t_fdf *fdf);
 
 // mlx_render.c
 
-void	render_image(t_fdf *fdf);
+void	render_map_grid(t_fdf *fdf);
 
 // mlx_hooks.c
 
 int		handle_keypress(int keycode, t_fdf *fdf);
 int		handle_x(t_fdf	*fdf);
+
+// bresenham.c
+
+void	init_bresenham_horz(t_bresenham *bresen, t_fdf *fdf, int row, int col);
+void	init_bresenham_vert(t_bresenham *bresen, t_fdf *fdf, int row, int col);
 
 // free.c
 

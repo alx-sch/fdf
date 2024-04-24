@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 15:18:21 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/23 18:04:57 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:04:47 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,15 +113,16 @@ static void	init_mlx(t_fdf *fdf)
 
 /*
 The FDF program:
-- Checks the provided file for validity.
-- Initializes the 'fdf' data structure with starting values.
-- Parses file information into the data structure.
-- Initializes MiniLibX components required for graphic rendering.
-- Renders the file with set settings onto the image.
-- Establishes hook events for user interaction, such as key input and
-  window manipulation.
-- Starts event handling via mlx_loop().
- */
+- check_file:	Checks the provided file for validity.
+- null_fdf:		Initializes the 'fdf' data structure with starting values.
+- parse_map:	Parses map information into the data structure.
+- init_mlx:		Initializes MiniLibX components required for graphic rendering.
+- project_3d_to_2d:			Calculates projected coordinates as seen on image.
+- render_map_grid:			Renders map onto the image and displays it in window.
+- mlx_key_hook, mlx_hook: 	Establishes hook events for user interaction,
+							such as key input and window manipulation.
+- mlx_loop:		Starts event handling.
+*/
 int	main(int argc, char **argv)
 {
 	t_fdf	fdf;
@@ -130,7 +131,8 @@ int	main(int argc, char **argv)
 	null_fdf(&fdf);
 	parse_map(&fdf, argv[1]);
 	init_mlx(&fdf);
-	render_image(&fdf);
+	project_3d_to_2d(&fdf);
+	render_map_grid(&fdf);
 	mlx_key_hook(fdf.win, &handle_keypress, &fdf);
 	mlx_hook(fdf.win, DestroyNotify, 0, &handle_x, &fdf);
 	mlx_loop(fdf.mlx);

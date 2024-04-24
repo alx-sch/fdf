@@ -6,17 +6,18 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:37:19 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/23 16:47:42 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/24 12:57:11 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
-TBD
+This file contains functions to render a 3D map grid in a 2D image using
+Bresenham's line drawing algorithm.
 */
 
 #include "fdf.h"
 
-void	render_image(t_fdf *fdf);
+void	render_map_grid(t_fdf *fdf);
 
 /*
 Sets the color of a pixel at a specified position within the image buffer.
@@ -49,57 +50,69 @@ static void	render_background(t_fdf *fdf)
 	}
 }
 
-// void draw_line(t_img *img, int x0, int y0, int x1, int y1, int color)
-void draw_line(t_img *img, int x0, int y0, int x1, int y1, int color)
-{
-    int dx = abs(x1 - x0);
-    int dy = abs(y1 - y0);
-    int sx = x0 < x1 ? 1 : -1;
-    int sy = y0 < y1 ? 1 : -1;
-    int err = dx - dy;
-    int e2;
+/*
+Draws a line segment on the image using Bresenham's line drawing algorithm
+in the indicated direction (horizontal, along the map width, or vertical,
+along the map height).
 
-    while (x0 != x1 || y0 != y1)
+Initializes a t_bresenham structure based on the specified direction
+and starting coordinates. It then uses Bresenham's line drawing algorithm to
+plot points along the line segment on the image. The color of each pixel is
+determined by the color specified in the fdf structure.
+*/
+static void	draw_line(t_fdf *fdf, int row, int col, char *direction)
+{
+	t_bresenham	bresen;
+	int			err;
+	int			e2;
+
+	if (ft_strcmp(direction, "horizontal") == 0)
+		init_bresenham_horz(&bresen, fdf, row, col);
+	else
+		init_bresenham_vert(&bresen, fdf, row, col);
+	err = bresen.dx - bresen.dy;
+	while (bresen.x0 != bresen.x1 || bresen.y0 != bresen.y1)
 	{
-        img_pix_put(img, x0, y0, color);
-        e2 = 2 * err;
-        if (e2 > -dy) {
-            err -= dy;
-            x0 += sx;
-        }
-        if (e2 < dx) {
-            err += dx;
-            y0 += sy;
-        }
-    }
+		img_pix_put(&fdf->img, bresen.x0, bresen.y0, fdf->color[row][col]);
+		e2 = 2 * err;
+		if (e2 > -bresen.dy)
+		{
+			err -= bresen.dy;
+			bresen.x0 += bresen.sx;
+		}
+		if (e2 < bresen.dx)
+		{
+			err += bresen.dx;
+			bresen.y0 += bresen.sy;
+		}
+	}
 }
 
-void	render_image(t_fdf *fdf)
+/*
+Renders the map grid onto the image and displays in in the window.
+- Renders the background.
+- Iterates over each map row and column, drawing line segments between them.
+- Finally, displays the rendered image on the window.
+*/
+void	render_map_grid(t_fdf *fdf)
 {
-	int x = 0;
-	int y = 0;
+	int	row;
+	int	col;
 
 	render_background(fdf);
-	get_projected_coordinates(fdf);
-
-	while (y < fdf->y_max)
+	row = 0;
+	while (row < fdf->y_max)
 	{
-		while (x < fdf ->x_max)
+		col = 0;
+		while (col < fdf->x_max)
 		{
-			img_pix_put(&fdf->img, fdf->x_proj[y][x], fdf->y_proj[y][x], fdf->color[y][x]);
-			x++;
+			if (col < (fdf->x_max - 1))
+				draw_line(fdf, row, col, "horizontal");
+			if (row < (fdf->y_max -1))
+				draw_line(fdf, row, col, "vertical");
+			col++;
 		}
-		x = 0;
-		y++;
+		row++;
 	}
-
-	for (int y = 0; y < fdf->y_max; y++) {
-        for (int x = 0; x < fdf->x_max; x++) {
-            if (x < (fdf->x_max - 1))
-                draw_line(&fdf->img, fdf->x_proj[y][x], fdf->y_proj[y][x], fdf->x_proj[y][x + 1],  fdf->y_proj[y][x+1], fdf->color[y][x]); // Draw horizontal line
-            if (y < (fdf->y_max -1))
-                draw_line(&fdf->img, fdf->x_proj[y][x],  fdf->y_proj[y][x], fdf->x_proj[y + 1][x], fdf->y_proj[y +1][x], fdf->color[y][x]); // Draw vertical line
-        }
-    }
 	mlx_put_image_to_window(fdf->mlx, fdf->win, fdf->img.img, 0, 0);
 }
