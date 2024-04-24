@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 19:43:13 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/24 14:36:22 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/24 21:05:27 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ endianess.
 - char *data:	Pointer to the start of image data -> raw pixel information.
 				Used in operations reading/modifying individual pixels, such
 				as setting the color.
-- int bpp:		Number of bits used to represent each pixel, which
-				defines the color depth: 24 bits (3 bytes) / pixel -> RGB
+- int bpp:		Number of bits used to represent each pixel, holds the color.
 - int size_len:	Length of each line in the image in bytes,
 				indicating the number of bytes needed to store a single
 				row of pixels in the image.

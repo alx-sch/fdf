@@ -6,7 +6,7 @@
 /*   By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:37:19 by aschenk           #+#    #+#             */
-/*   Updated: 2024/04/24 14:36:40 by aschenk          ###   ########.fr       */
+/*   Updated: 2024/04/24 21:12:11 by aschenk          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,32 @@ Bresenham's line drawing algorithm.
 void	render_map_grid(t_fdf *fdf);
 
 /*
+Used as a more performative alternative to of mlx_pixel_put().
+Source: https://harm-smits.github.io/42docs/libs/minilibx.
+
 Sets the color of a pixel at a specified position within the image buffer.
 Calculates the memory location (pixel) where the color value will be stored
 in the image buffer. The function then assigns the color value at that
-buffer location. Used as a more performative alternative to of mlx_pixel_put().
-Source: https://harm-smits.github.io/42docs/libs/minilibx.
+buffer location.
+
+
+Imagine the image buffer to be a 1D array:
+- y * img->size_len:	Calculates the starting index of the pixel row within
+						the image buffer.
+- x * img->bpp / 8:		Calculates the offset within the pixel row to access
+						the beginning of a specific pixel. 'img->bpp / 8'
+						calculates the number of bytes per pixel.
+- *(int *)pixel:	The color is stored as an integer (4 bytes), representing
+					RGB (3 bytes). While there is also enough space for ARGB
+					(4 bytes), it appears that the alpha channel is not
+					being utilized: Same output for 0xFFFF0000, 0x00FF0000.
+
 */
 static void	img_pix_put(t_img *img, int x, int y, int color)
 {
 	char	*pixel;
 
-	pixel = img->data + ((y) * img->size_len + (x) * (img->bpp / 8));
+	pixel = img->data + (y * img->size_len + x * img->bpp / 8);
 	*(int *)pixel = color;
 }
 
