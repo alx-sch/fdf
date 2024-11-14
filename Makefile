@@ -6,11 +6,13 @@
 #    By: aschenk <aschenk@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/02/05 19:39:15 by aschenk           #+#    #+#              #
-#    Updated: 2024/04/24 21:04:43 by aschenk          ###   ########.fr        #
+#    Updated: 2024/11/15 00:47:11 by aschenk          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME :=			fdf
+
+OS := $(shell uname)			# Detect OS type
 
 SRCS_DIR :=		src
 SRCS :=			$(SRCS_DIR)/main.c \
@@ -38,13 +40,24 @@ LIBFT_FLAGS :=	-L$(LIBFT_DIR) -lft
 LIBFT :=		$(LIBFT_DIR)/libft.a
 
 # MiniLibX
+ifeq ($(strip $(OS)),Linux)				# Choose the correct MiniLibX library based on OS
+	MLX_LIB := mlx_Linux
+else ifeq ($(strip $(OS)),Darwin)
+	MLX_LIB := mlx_Darwin
+else
+	MLX_LIB := mlx
+endif
+
 MLX_DIR :=		lib/mlx
-MLX_FLAGS :=	-L$(MLX_DIR) -lmlx_Linux -lXext -lX11 -lm
-LIBMLX :=		$(MLX_DIR)/libmlx.a
+MLX_FLAGS :=	-L$(MLX_DIR) -l$(MLX_LIB) -lXext -lX11 -lm
+LIBMLX := 		$(MLX_DIR)/lib$(MLX_LIB).a
 
 LIB_FLAGS :=	$(LIBFT_FLAGS) $(MLX_FLAGS)
 CC :=			cc
 CFLAGS :=		-Wall -Wextra -Werror -Wpedantic -g -I$(HDRS_DIR) -I$(LIBFT_DIR) -I$(MLX_DIR)
+ifeq ($(strip $(OS)),Darwin)								# Suppress some errors/warnings on MacOS (due to MiniLibX)
+	CFLAGS += 		-Wno-strict-prototypes
+endif
 
 # For compilation progress bar
 TOTAL_SRCS :=	$(words $(SRCS))
