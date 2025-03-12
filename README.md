@@ -10,4 +10,4 @@ README: TBD
 ![Screenshot from 2024-04-24 21-15-30](https://raw.githubusercontent.com/alx-sch/42_fdf/main/.assets/fdf_example.png)
 
 ## Acknowledgements
-The project badge used is retrieved from [this repo](https://github.com/ayogun/42-project-badges) by Ali Ogun.
+The project badge is from [this repository](https://github.com/ayogun/42-project-badges) by Ali Ogun.
