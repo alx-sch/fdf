@@ -1,3 +1,5 @@
+strip_42_headers.sh
+
 # Prerequisites
 *.d
 
